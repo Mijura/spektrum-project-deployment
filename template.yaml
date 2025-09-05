@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  deployment-service
+
+Transform:
+- AWS::Serverless-2016-10-31
+
+Globals:
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+      AllowHeaders: "'content-type'"
+      AllowOrigin: "'*'"
+
+Resources:
+
+  DeployPrebuiltFilesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/controllers/deploy-prebuilt-files/deploy-prebuilt-files.deployPrebuiltFilesHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Deploy an application
+      Environment:
+        Variables:
+          APPLICATION_TABLE: !Ref ApplicationTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /deploy/prebuilt-files
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/controllers/deploy-prebuilt-files/deploy-prebuilt-files.ts
+
+  ApplicationTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Application
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+Outputs:
+  DeploymentServiceApi:
+    Description: "API Gateway URL for the deployment service"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Export:
+      Name: DeploymentServiceApi 
