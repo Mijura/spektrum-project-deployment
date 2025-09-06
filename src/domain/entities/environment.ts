@@ -1,10 +1,11 @@
-import { Deployment } from "./deployment"
+import { Deployment } from "@domain/entities/deployment"
 
 export enum EnvironmentType{
     'DEVELOPMENT',
     'TEST',
     'PRODUCTION'
 }
+
 export class Environment {
     readonly id: string
     readonly url: string

@@ -1,5 +1,5 @@
-import { DeploymentStrategy } from "@domain/strategy/deployment-strategy"
-import { Environment } from "./environment"
+import { DeploymentStrategy } from "@domain/ports/deployment-strategy"
+import { Environment } from "@domain/entities/environment"
 
 export enum ServiceType {
     FRONTEND = "Frontend",

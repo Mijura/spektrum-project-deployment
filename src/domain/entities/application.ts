@@ -1,4 +1,4 @@
-import { Service } from "./service"
+import { Service } from "@domain/entities/service"
 
 export class Application {
     readonly id: string
