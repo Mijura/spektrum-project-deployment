@@ -18,13 +18,13 @@ Resources:
   DeployPrebuiltFilesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/deploy-prebuilt-files/deploy-prebuilt-files.deployPrebuiltFilesHandler
+      Handler: src/infrastructure/controllers/deploy.deployProjectHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: Deploy an application
+      Description: Deploy an project
       Environment:
         Variables:
           APPLICATION_TABLE: !Ref ApplicationTable
@@ -32,7 +32,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /deploy/prebuilt-files
+            Path: /deploy
             Method: POST
     Metadata:
       BuildMethod: esbuild
@@ -41,7 +41,7 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/controllers/deploy-prebuilt-files/deploy-prebuilt-files.ts
+          - src/infrastructure/controllers/deploy.ts
 
   ApplicationTable:
     Type: AWS::DynamoDB::Table

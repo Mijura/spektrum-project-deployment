@@ -4,7 +4,7 @@ export enum DeploymentStatus {
     FAILED = "Failed"
 }
   
-export class Deployment {
+export class DeploymentReport {
     readonly id: string
     readonly version: string
     readonly created: string

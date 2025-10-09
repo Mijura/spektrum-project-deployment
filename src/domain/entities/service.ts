@@ -1,5 +1,6 @@
-import { DeploymentStrategy } from "@domain/ports/deployment-strategy"
+import { DeploymentProvider } from "@domain/ports/deployment-provider"
 import { Environment } from "@domain/entities/environment"
+import { DeploymentReport } from "./deployment-report"
 
 export enum ServiceType {
     FRONTEND = "Frontend",
@@ -23,10 +24,7 @@ export abstract class Service {
         this.environments.push(env)
     }
   
-    deployOnEnvironment(environmentId: string, strategy: DeploymentStrategy): void { 
-        const deployment = strategy.deploy(this)
-
-    }
+    abstract deployWith(provider: DeploymentProvider): DeploymentReport
 }
   
 export class Frontend extends Service {
@@ -35,12 +33,20 @@ export class Frontend extends Service {
         super(id, ServiceType.FRONTEND, repositoryId)
     }
 
+    deployWith(provider: DeploymentProvider): DeploymentReport {
+        return provider.deployFrontend(this)
+    }
+
 }
   
-export class Backend extends Service {
+export class BackendService extends Service {
     
     constructor(id: string, repositoryId: string) {
         super(id, ServiceType.BACKEND, repositoryId)
+    }
+
+    deployWith(provider: DeploymentProvider): DeploymentReport {
+        return provider.deployBackend(this)
     }
 }
   
