@@ -1,5 +1,5 @@
 {
-    "name": "deployment-automation",
+    "name": "devops",
     "description": "Serverless API for deployment automation",
     "version": "0.0.1",
     "private": true,
