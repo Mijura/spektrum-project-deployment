@@ -8,14 +8,14 @@ export class DeploymentReport {
     readonly id: string
     readonly version: string
     readonly created: string
+    serviceId: string
     status: DeploymentStatus
-    url: string | null
   
-    constructor(id: string, version: string) {
+    constructor(id: string, version: string, serviceId: string) {
         this.id = id
         this.version = version
         this.created = new Date().toISOString()
+        this.serviceId = serviceId
         this.status = DeploymentStatus.PENDING
-        this.url = null
     }
 }

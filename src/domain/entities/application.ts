@@ -1,18 +1,19 @@
-import { Service } from "@domain/entities/service"
+import { Environment } from "./environment"
 
 export class Application {
     readonly id: string
     readonly projectId: string
-    services: Service[]
+    readonly environments: Environment[]
   
     constructor(id: string, projectId: string) {
         this.id = id
         this.projectId = projectId
-        this.services = []
+        this.environments = []
+    }    
+    
+    addEnvironment(env: Environment) {
+        this.environments.push(env)
     }
   
-    addService(service: Service) {
-        this.services.push(service)
-    }
 }
   

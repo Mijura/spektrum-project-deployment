@@ -1,5 +1,4 @@
 import { DeploymentProvider } from "@domain/ports/deployment-provider"
-import { Environment } from "@domain/entities/environment"
 import { DeploymentReport } from "./deployment-report"
 
 export enum ServiceType {
@@ -11,17 +10,11 @@ export abstract class Service {
     readonly id: string
     readonly type: ServiceType
     readonly repositoryId: string
-    readonly environments: Environment[]
   
     constructor(id: string, type: ServiceType, repositoryId: string) {
         this.id = id
         this.type = type
         this.repositoryId = repositoryId
-        this.environments = []
-    }
-  
-    addEnvironment(env: Environment) {
-        this.environments.push(env)
     }
   
     abstract deployWith(provider: DeploymentProvider): DeploymentReport

@@ -1,4 +1,5 @@
 import { DeploymentReport } from "@domain/entities/deployment-report"
+import { Service } from "./service"
 
 export enum EnvironmentType{
     'DEVELOPMENT',
@@ -10,16 +11,21 @@ export class Environment {
     readonly id: string
     readonly url: string
     readonly type: EnvironmentType
-    deployments: DeploymentReport[]
+    services: Service[]
+    deploymentReports: DeploymentReport[]
   
     constructor(id: string, url: string) {
         this.id = id
         this.url = url
-        this.deployments = []
+        this.deploymentReports = []
     }
   
-    addDeployment(deployment: DeploymentReport) {
-        this.deployments.push(deployment)
+    addDeploymentReport(deployment: DeploymentReport) {
+        this.deploymentReports.push(deployment)
+    }
+
+    addService(service: Service) {
+        this.services.push(service)
     }
 }
   
