@@ -1,6 +1,7 @@
 import { Environment } from "./environment"
 
 export class Application {
+
     readonly id: string
     readonly projectId: string
     readonly environments: Environment[]
