@@ -1,7 +1,6 @@
-import { DeploymentReport } from "@domain/entities/deployment-report"
-import { Service } from "@domain/entities/service"
+import { Project } from "@domain/entities/project"
 
 export interface DeploymentProvider {
-    deployFrontend(service: Service): DeploymentReport
-    deployBackend(service: Service): DeploymentReport
+    deployFrontend(service: Project): boolean
+    deployBackend(service: Project): boolean
 }
