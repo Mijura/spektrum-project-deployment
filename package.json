@@ -1,6 +1,6 @@
 {
-    "name": "devops",
-    "description": "Serverless API for deployment automation",
+    "name": "project-deployment",
+    "description": "Serverless API for project deployment automation",
     "version": "0.0.1",
     "private": true,
     "dependencies": {
