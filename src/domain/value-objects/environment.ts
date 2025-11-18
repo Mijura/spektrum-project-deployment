@@ -1,4 +1,3 @@
-import { Url } from "url"
 
 export enum EnvironmentType {
     'DEVELOPMENT',
@@ -8,13 +7,13 @@ export enum EnvironmentType {
 class Environment {
     constructor(
       readonly type: EnvironmentType,
-      readonly endpoint: Url,
+      readonly endpoint: string,
     ) {}
 }
 
 export class DevEnvironment extends Environment {
 
-    constructor(endpoint: Url){
+    constructor(endpoint: string){
         super(EnvironmentType.DEVELOPMENT, endpoint)
     }
 
@@ -22,7 +21,7 @@ export class DevEnvironment extends Environment {
 
 export class ProdEnvironment extends Environment {
 
-    constructor(endpoint: Url){
+    constructor(endpoint: string){
         super(EnvironmentType.PRODUCTION, endpoint)
     }
 }

@@ -1,7 +1,7 @@
 import { Project, ProjectType } from "@domain/entities/project"
 import { StaticHostingService } from "@domain/ports/static-hosting-service"
 import { Url } from "@domain/value-objects/url"
-import { FileStorage } from "@jigjoy-io/file-storage"
+import { FileStorage } from "@jigjoy-io/file-artifacts"
 import { Readable } from "stream"
 
 export class JigJoyS3HostingService implements StaticHostingService {

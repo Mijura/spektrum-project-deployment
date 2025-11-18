@@ -1,6 +1,6 @@
 import { Project } from "@domain/entities/project"
-import { Url } from "@domain/value-objects/url"
+import { EnvironmentType } from "@domain/value-objects/environment"
 
 export interface StaticHostingService {
-    deploy(project: Project): Promise<Url>
+    deployToEnvironment(project: Project, environment: EnvironmentType): Promise<string>
 }
