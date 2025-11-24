@@ -1,6 +1,5 @@
-import { Project } from "@domain/entities/project"
-import { EnvironmentType } from "@domain/value-objects/environment"
+import { FileArtifacts } from "@app/value-objects/file-artifacts"
 
 export interface StaticWebsiteHosting {
-    deployToEnvironment(project: Project, environment: EnvironmentType): Promise<string>
+    deploy(folderName: string, buildArtifacts: FileArtifacts): Promise<string>
 }
