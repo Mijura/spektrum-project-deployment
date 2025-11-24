@@ -1,6 +1,6 @@
 
-import { StaticWebsiteHosting } from "@app/ports/static-website-hosting"
-import { S3WebsiteHosting } from "@infra/storage/s3-hosting-service"
+import { StaticWebsiteHosting } from "@app/ports/outbound/static-website-hosting"
+import { S3WebsiteHosting } from "@infra/website-hosting/s3-website-hosting"
 
 
 // Version Storages

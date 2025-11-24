@@ -1,5 +1,5 @@
 import { S3StorageFactory, Storage } from "@jigjoy-io/file-artifacts"
-import { StaticWebsiteHosting } from "@app/ports/static-website-hosting"
+import { StaticWebsiteHosting } from "@app/ports/outbound/static-website-hosting"
 import { FileArtifacts } from "@app/value-objects/file-artifacts"
 
 export class S3WebsiteHosting implements StaticWebsiteHosting {
