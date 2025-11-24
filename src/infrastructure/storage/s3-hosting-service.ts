@@ -2,7 +2,7 @@ import { Project, ProjectType } from "@domain/entities/project"
 import { Readable } from "stream"
 import { EnvironmentType } from "@domain/value-objects/environment"
 import { S3StorageFactory, Storage } from "@jigjoy-io/file-artifacts"
-import { StaticWebsiteHosting } from "@application/ports/static-website-hosting"
+import { StaticWebsiteHosting } from "@app/ports/static-website-hosting"
 
 export class S3WebsiteHosting implements StaticWebsiteHosting {
 
