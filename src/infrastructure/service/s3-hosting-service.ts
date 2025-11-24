@@ -1,25 +1,33 @@
 import { Project, ProjectType } from "@domain/entities/project"
-import { StaticHostingService } from "@domain/ports/static-hosting-service"
-import { Url } from "@domain/value-objects/url"
-import { FileStorage } from "@jigjoy-io/file-artifacts"
 import { Readable } from "stream"
+import { EnvironmentType } from "@domain/value-objects/environment"
+import { S3StorageFactory, Storage } from "@jigjoy-io/file-artifacts"
+import { StaticWebsiteHosting } from "@application/ports/static-website-hosting"
 
-export class JigJoyS3HostingService implements StaticHostingService {
+export class S3WebsiteHosting implements StaticWebsiteHosting {
+
+    s3Storage: Storage
+
     constructor(
-        private readonly fileStorage: FileStorage
-    ) {}
+        readonly bucket: string
+    ) {
+        const factory = new S3StorageFactory(bucket)
+        this.s3Storage = factory.create()
+    }
 
-    async deploy(project: Project): Promise<Url> {
+    deployToEnvironment(project: Project, environment: EnvironmentType): Promise<string> {
+        throw new Error("Method not implemented.")
+    }
+
+    async deploy(project: Project): Promise<string> {
 
         if(project.type !== ProjectType.FRONTEND) 
             throw new Error('Required project type for static hosting is FRONTEND')
 
         const domain = process.env.DOMAIN
-        const bucket = process.env.WEB_HOSTING_BUCKET
 
         if (!domain) throw new Error('Missing WEB_HOSTING_DOMAIN env variable')
             
-        if (!bucket) throw new Error('Missing WEB_HOSTING_BUCKET env variable')
 
         for (const [fileName, content] of Object.entries(buildArtifact)) {
             const stream = Readable.from([content])
@@ -28,9 +36,8 @@ export class JigJoyS3HostingService implements StaticHostingService {
         }
         
         const endpoint = `https://${projectId}.${domain}`
-        const url = new Url(endpoint)
                 
-        return url
+        return endpoint
     }
 
 }
