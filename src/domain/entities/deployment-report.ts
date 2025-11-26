@@ -6,10 +6,9 @@ export enum DeploymentStatus {
     FAILED = "FAILED",
 }
 
-export class DeploymentExecution {
+export class DeploymentReport {
 
     readonly id: string
-    readonly environment: Environment
     readonly versionId: string
     readonly startedAt: string
     finishedAt: string | null
@@ -17,44 +16,45 @@ export class DeploymentExecution {
   
     private constructor(
         id: string,
-        environment: Environment,
         versionId: string,
         startedAt: string,
         finishedAt: string | null,
         status: DeploymentStatus
     ) {
         this.id = id,
-        this.environment = environment
         this.versionId = versionId
         this.startedAt = startedAt
         this.finishedAt = finishedAt
         this.status = status
     }
 
-    static create(environment: Environment, versionId: string){
+    setFinalStatus(status: DeploymentStatus.FAILED | DeploymentStatus.SUCCEEDED): void {
+
+        if(this.status !== DeploymentStatus.IN_PROGRESS)
+            throw new Error(`You can only change in progress status`)
+
+        
+        this.finishedAt = new Date().toISOString()
+        this.status = status
+    }
+
+    static create(versionId: string){
         const id = uuidv4()
         const startedAt = new Date().toISOString()
         const status = DeploymentStatus.IN_PROGRESS
         
-        return new DeploymentExecution(id, environment, versionId, startedAt, null, status)
-    }
-
-    finish(status: Exclude<DeploymentStatus.FAILED, DeploymentStatus.SUCCEEDED>): void {
-        this.finishedAt = new Date().toISOString()
-        this.status = status
+        return new DeploymentReport(id, versionId, startedAt, null, status)
     }
   
     static rehydrate(data: {
         id: string,
-        environment: Environment
         versionId: string
         startedAt: string,
         finishedAt: string,
         status: DeploymentStatus
     }) {
-        return new DeploymentExecution(
+        return new DeploymentReport(
             data.id,
-            data.environment,
             data.versionId,
             data.startedAt,
             data.finishedAt,
