@@ -1,22 +1,27 @@
-import { TargetService } from "@domain/value-objects/target-service"
 
-export class DeploymentTarget {
+export class DeploymentTarget<Service> {
     readonly id: string
     private moduleId: string
-    private service: TargetService
+    private versionControlId: string
+    private service: Service
   
-    constructor(id: string, moduleId: string, service: TargetService) {
+    constructor(id: string, moduleId: string, versionControlId: string, service: Service) {
         this.id = id
         this.moduleId = moduleId
+        this.versionControlId = versionControlId
         this.service = service
     }
 
-    updateService(service: TargetService){
+    updateService(service: Service){
         this.service = service
     }
 
     getModuleId(){
         return this.moduleId
+    }
+
+    getVersionControlId(){
+        return this.versionControlId
     }
 
     getTargetService(){

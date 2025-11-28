@@ -1,7 +1,7 @@
 import { DeploymentLog } from "@domain/entities/deployment-log"
 import { DeploymentTarget } from "@domain/entities/deployment-target"
 import { v4 as uuidv4 } from 'uuid'
-import { TargetService } from "./target-service"
+import { Service } from "./target-service"
 
 export enum EnvironmentType {
     DEV,
@@ -12,7 +12,7 @@ export class Environment {
 
     private constructor(
         private type: EnvironmentType,
-        readonly deploymentTargets: DeploymentTarget [],
+        readonly deploymentTargets: DeploymentTarget<Service> [],
         readonly logs: DeploymentLog [],
         private entryPointTargetId: string | undefined
     ) {}
@@ -27,10 +27,10 @@ export class Environment {
 
 
     /** ensure there is a target for this module, create if missing */
-    ensureDeploymentTarget(moduleId: string, service: TargetService): DeploymentTarget {
+    ensureDeploymentTarget(moduleId: string, versionControlId: string, service: Service): DeploymentTarget<Service> {
         let target = this.deploymentTargets.find(t => t.getModuleId() === moduleId)
         if (!target) {
-            target = new DeploymentTarget(uuidv4(), moduleId, service)
+            target = new DeploymentTarget(uuidv4(), moduleId, versionControlId, service)
             this.deploymentTargets.push(target)
         } else {
             // optional: update service config if e.g. bucket/prefix/url changed
@@ -48,7 +48,7 @@ export class Environment {
         this.entryPointTargetId = targetId
     }
 
-    getEntryPoint(): DeploymentTarget | undefined {
+    getEntryPoint(): DeploymentTarget<Service> | undefined {
         if (!this.entryPointTargetId) return undefined
         return this.deploymentTargets.find(t => t.id === this.entryPointTargetId)
     }

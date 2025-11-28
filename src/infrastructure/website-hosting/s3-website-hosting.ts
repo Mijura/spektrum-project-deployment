@@ -1,24 +1,27 @@
 import { S3StorageFactory, Storage } from "@jigjoy-io/file-artifacts"
 import { StaticWebsiteHosting } from "@app/ports/outbound/static-website-hosting"
-import { FileArtifacts } from "@app/value-objects/file-artifacts"
+import { DeploymentTarget } from "@domain/entities/deployment-target"
+import { ProjectArtifactsClient } from "@jigjoy-io/project-artifacts-client"
+import { S3 } from "@domain/value-objects/target-service"
 
 export class S3WebsiteHosting implements StaticWebsiteHosting {
 
-    s3Storage: Storage
-
     constructor(
-        readonly bucket: string
-    ) {
-        const factory = new S3StorageFactory(bucket)
-        this.s3Storage = factory.create()
-    }
+        readonly projectArtifactsClient: ProjectArtifactsClient
+    ) { }
 
-    async deploy(folderName: string, buildArtifacts: FileArtifacts): Promise<string> {
+    async deploy(target: DeploymentTarget<S3>): Promise<void> {
 
-        await this.s3Storage.writeAll(folderName, buildArtifacts)
-        const endpoint = `https://${folderName}.jigjoy.io`
+        const versionControlId = target.getVersionControlId()
+        const projectArtifacts = await this.projectArtifactsClient.fetchArtifacts(versionControlId)
+
+        const service = target.getTargetService()
+
+        const factory = new S3StorageFactory(service.bucketName)
+        const s3Storage = factory.create()
+
+        await s3Storage.writeAll(service.prefix, projectArtifacts.buildArtifacts)
                 
-        return endpoint
     }
 
 

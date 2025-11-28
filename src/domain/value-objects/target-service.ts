@@ -1,11 +1,8 @@
-export type TargetService =
-  | StaticWebApp
+export type Service =
+  S3
 
-export interface StaticWebApp {
+export interface S3 {
     kind: "static-web-app"
-}
-
-export interface S3StaticWebApp extends StaticWebApp {
     // S3 details
     bucketName: string
     prefix: string   // folder in the bucket, e.g. "apps/project-123/frontend"
