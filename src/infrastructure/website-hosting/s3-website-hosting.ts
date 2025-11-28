@@ -1,6 +1,6 @@
-import { S3StorageFactory, Storage } from "@jigjoy-io/file-artifacts"
+import { S3StorageFactory } from "@jigjoy-io/file-artifacts"
 import { StaticWebsiteHosting } from "@app/ports/outbound/static-website-hosting"
-import { DeploymentTarget } from "@domain/entities/deployment-target"
+import { DeploymentTarget } from "@domain/value-objects/deployment-target"
 import { ProjectArtifactsClient } from "@jigjoy-io/project-artifacts-client"
 import { S3 } from "@domain/value-objects/target-service"
 

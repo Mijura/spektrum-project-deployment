@@ -1,12 +1,10 @@
 
 export class DeploymentTarget<Service> {
-    readonly id: string
     private moduleId: string
     private versionControlId: string
     private service: Service
   
-    constructor(id: string, moduleId: string, versionControlId: string, service: Service) {
-        this.id = id
+    constructor(moduleId: string, versionControlId: string, service: Service) {
         this.moduleId = moduleId
         this.versionControlId = versionControlId
         this.service = service

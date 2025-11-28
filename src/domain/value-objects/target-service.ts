@@ -1,5 +1,4 @@
-export type Service =
-  S3
+export type Service = S3 | EC2
 
 export interface S3 {
     kind: "static-web-app"
@@ -11,3 +10,5 @@ export interface S3 {
     assetBaseUrl: string        // e.g. "https://bucket.s3.amazonaws.com/apps/project-123/frontend/"
     publicAppUrl: string        // e.g. "https://project-123.jigjoy.com/"
 }
+
+export interface EC2 {}

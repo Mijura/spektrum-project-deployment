@@ -1,7 +1,6 @@
 import { DeploymentLog } from "@domain/entities/deployment-log"
-import { DeploymentTarget } from "@domain/entities/deployment-target"
-import { v4 as uuidv4 } from 'uuid'
-import { Service } from "./target-service"
+import { DeploymentTarget } from "@domain/value-objects/deployment-target"
+import { Service } from "@domain/value-objects/target-service"
 
 export enum EnvironmentType {
     DEV,
@@ -14,7 +13,7 @@ export class Environment {
         private type: EnvironmentType,
         readonly deploymentTargets: DeploymentTarget<Service> [],
         readonly logs: DeploymentLog [],
-        private entryPointTargetId: string | undefined
+        private entryPoint: string | undefined
     ) {}
 
     addLog(log: DeploymentLog){
@@ -25,12 +24,11 @@ export class Environment {
         return new Environment(type, [], [], undefined)
     }
 
-
     /** ensure there is a target for this module, create if missing */
     ensureDeploymentTarget(moduleId: string, versionControlId: string, service: Service): DeploymentTarget<Service> {
         let target = this.deploymentTargets.find(t => t.getModuleId() === moduleId)
         if (!target) {
-            target = new DeploymentTarget(uuidv4(), moduleId, versionControlId, service)
+            target = new DeploymentTarget(moduleId, versionControlId, service)
             this.deploymentTargets.push(target)
         } else {
             // optional: update service config if e.g. bucket/prefix/url changed
@@ -39,18 +37,19 @@ export class Environment {
         return target
     }
 
-    setEntryPoint(targetId: string) {
-        const exists = this.deploymentTargets.some(t => t.id === targetId)
+    setEntryPoint(moduleId: string) {
+        const exists = this.deploymentTargets.some(t => t.getModuleId() === moduleId)
 
         if (!exists) 
             throw new Error("Entry point target must exist in this environment")
         
-        this.entryPointTargetId = targetId
+        this.entryPoint = moduleId
     }
 
     getEntryPoint(): DeploymentTarget<Service> | undefined {
-        if (!this.entryPointTargetId) return undefined
-        return this.deploymentTargets.find(t => t.id === this.entryPointTargetId)
+        if (!this.entryPoint) 
+            return undefined
+        return this.deploymentTargets.find(t => t.getModuleId() === this.entryPoint)
     }
 
     getType(){

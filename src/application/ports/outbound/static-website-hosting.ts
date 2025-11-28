@@ -1,4 +1,4 @@
-import { DeploymentTarget } from "@domain/entities/deployment-target"
+import { DeploymentTarget } from "@domain/value-objects/deployment-target"
 import { Service } from "@domain/value-objects/target-service"
 
 export interface StaticWebsiteHosting {

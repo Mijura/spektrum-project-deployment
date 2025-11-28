@@ -15,16 +15,16 @@ Globals:
 
 Resources:
 
-  DeployPrebuiltFilesFunction:
+  DeployModuleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/deploy.deployProjectHandler
+      Handler: src/infrastructure/controllers/deploy.deployModuleHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: Deploy an project
+      Description: Deploy an project module
       Environment:
         Variables:
           APPLICATION_TABLE: !Ref ApplicationTable

@@ -29,7 +29,7 @@ export class DeployModuleUseCase implements DeployModule {
 		const deploymentTarget = env.ensureDeploymentTarget(command.moduleId, command.versionControlId, service)
       
         if (command.setAsEntryPoint) {
-          env.setEntryPoint(command.moduleId)
+          	env.setEntryPoint(command.moduleId)
         }
 
 		await this.hostingService.deploy(deploymentTarget)
