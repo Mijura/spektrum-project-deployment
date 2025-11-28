@@ -1,13 +1,14 @@
 import { DeployModule } from "@app/ports/inbound/deploy-module"
 import { CloudProfileRepository } from "@app/ports/outbound/project-cloud-profile-repository"
 import { StaticWebsiteHosting } from "@app/ports/outbound/static-website-hosting"
+import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
 import { S3StaticWebApp } from "@domain/value-objects/target-service"
 
 export class DeployModuleUseCase implements DeployModule {
 
     constructor(private cloudProfileRepo: CloudProfileRepository, private hostingService: StaticWebsiteHosting){}
 
-    async execute(deployModuleDTO: DeployModuleDTO): Promise<void> {
+    async execute(command: DeployModuleCommand): Promise<void> {
         const profile = await this.cloudProfileRepo.getByProjectId(deployModuleDTO.projectId)
         // if not exists, you can lazily create ProjectCloudProfile here
       

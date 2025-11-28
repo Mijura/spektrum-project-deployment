@@ -1,4 +1,5 @@
+import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
 
 export interface DeployModule {
-    execute(moduleId: string): Promise<void>
+    execute(command: DeployModuleCommand): Promise<void>
 }
