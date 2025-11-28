@@ -1,5 +1,5 @@
-import { FileArtifacts } from "@app/value-objects/file-artifacts"
+import { DeploymentTarget } from "@domain/entities/deployment-target"
 
 export interface StaticWebsiteHosting {
-    deploy(folderName: string, buildArtifacts: FileArtifacts): Promise<string>
+    deploy(target: DeploymentTarget): Promise<string>
 }
