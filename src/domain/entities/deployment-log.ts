@@ -6,7 +6,7 @@ export enum DeploymentStatus {
     FAILED = "FAILED",
 }
 
-export class DeploymentReport {
+export class DeploymentLog {
 
     readonly id: string
     readonly versionId: string
@@ -43,7 +43,7 @@ export class DeploymentReport {
         const startedAt = new Date().toISOString()
         const status = DeploymentStatus.IN_PROGRESS
         
-        return new DeploymentReport(id, versionId, startedAt, null, status)
+        return new DeploymentLog(id, versionId, startedAt, null, status)
     }
   
     static rehydrate(data: {
@@ -53,7 +53,7 @@ export class DeploymentReport {
         finishedAt: string,
         status: DeploymentStatus
     }) {
-        return new DeploymentReport(
+        return new DeploymentLog(
             data.id,
             data.versionId,
             data.startedAt,

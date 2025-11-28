@@ -1,4 +1,4 @@
 
 export interface DeployToProd {
-    execute(projectHistoryId: string): Promise<void>
+    execute(moduleId: string): Promise<void>
 }

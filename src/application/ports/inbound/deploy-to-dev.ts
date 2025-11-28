@@ -1,4 +1,4 @@
 
 export interface DeployToDev {
-    execute(projectHistoryId: string): Promise<void>
+    execute(moduleId: string): Promise<void>
 }
