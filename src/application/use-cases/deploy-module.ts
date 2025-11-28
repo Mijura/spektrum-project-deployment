@@ -7,7 +7,7 @@ export class DeployModuleUseCase implements DeployModule {
 
     constructor(private cloudProfileRepo: CloudProfileRepository, private hostingService: StaticWebsiteHosting){}
 
-    async execute(deployModuleDTO: DeployModuleCommand): Promise<void> {
+    async execute(deployModuleDTO: DeployModuleDTO): Promise<void> {
         const profile = await this.cloudProfileRepo.getByProjectId(deployModuleDTO.projectId)
         // if not exists, you can lazily create ProjectCloudProfile here
       
