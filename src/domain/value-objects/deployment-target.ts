@@ -10,19 +10,19 @@ export class DeploymentTarget<Service> {
         this.service = service
     }
 
-    updateService(service: Service){
+    updateService(service: Service): void {
         this.service = service
     }
 
-    getModuleId(){
+    getModuleId(): string {
         return this.moduleId
     }
 
-    getVersionControlId(){
+    getVersionControlId(): string {
         return this.versionControlId
     }
 
-    getTargetService(){
+    getTargetService(): Service {
         return this.service
     }
 }

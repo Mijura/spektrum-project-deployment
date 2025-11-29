@@ -1,23 +1,19 @@
 import { Environment, EnvironmentType } from "@domain/value-objects/environment"
-import { v4 as uuidv4 } from "uuid"
 
 export class ProjectCloudProfile {
     
-    readonly id: string
     readonly projectId: string
     private readonly environments: Environment[]
   
-    private constructor(id: string, projectId: string, environments: Environment[]) {
-        this.id = id
+    private constructor(projectId: string, environments: Environment[]) {
         this.projectId = projectId
         this.environments = environments
     }
 
     static create(projectId: string){
-        const id = uuidv4()
         const devEnv = Environment.create(EnvironmentType.DEV)
         const prodEnv = Environment.create(EnvironmentType.PROD)
-        return new ProjectCloudProfile(id, projectId, [devEnv, prodEnv])
+        return new ProjectCloudProfile(projectId, [devEnv, prodEnv])
     }
 
     getEnvironment(type: EnvironmentType): Environment | undefined {

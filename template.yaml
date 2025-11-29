@@ -43,16 +43,63 @@ Resources:
         EntryPoints:
           - src/infrastructure/controllers/deploy.ts
 
-  ApplicationTable:
+  GetEntryPointFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: index.getDevEntryPointHandler
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ProjectCloudProfilesTable
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ProjectCloudProfilesTable
+      Events:
+        ApiGetDevEntryPoint:
+          Type: Api
+          Properties:
+            Path: /projects/{projectId}/environments/dev/entry-point
+            Method: get
+            RestApiId: !Ref HttpApi
+  
+  GetEntryPointFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/handlers/get-entry-point.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Get entry point details for projectId
+      Environment:
+        Variables:
+          PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /projects/{projectId}/environments/{environment}/entry-point
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/get-entry-point.ts
+  
+  ProjectCloudProfileTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: Application
+      TableName: ProjectCloudProfile
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: id
+        - AttributeName: projectId
           AttributeType: S
       KeySchema:
-        - AttributeName: id
+        - AttributeName: projectId
           KeyType: HASH
 
 Outputs:

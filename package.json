@@ -9,6 +9,7 @@
         "@aws-sdk/lib-dynamodb": "^3.398.0",
         "@jigjoy-io/file-artifacts": "^0.0.5",
         "@jigjoy-io/project-artifacts-client": "^0.0.2",
+        "@jigjoy-io/serverless-core": "^0.0.3",
         "ajv": "^8.16.0",
         "ajv-formats": "^3.0.1",
         "uuid": "^13.0.0"
