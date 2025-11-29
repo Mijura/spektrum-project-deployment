@@ -10,12 +10,12 @@ export class S3WebsiteHosting implements StaticWebsiteHosting {
         readonly projectArtifactsClient: ProjectArtifactsClient
     ) { }
 
-    async deploy(target: DeploymentTarget<S3>): Promise<void> {
+    async deploy(target: DeploymentTarget): Promise<void> {
 
         const versionControlId = target.getVersionControlId()
         const projectArtifacts = await this.projectArtifactsClient.fetchArtifacts(versionControlId)
 
-        const service = target.getTargetService()
+        const service = target.getTargetService() as S3
 
         const factory = new S3StorageFactory(service.bucketName)
         const s3Storage = factory.create()

@@ -1,16 +1,17 @@
+import { CloudService } from "./target-service"
 
-export class DeploymentTarget<Service> {
+export class DeploymentTarget {
     private moduleId: string
     private versionControlId: string
-    private service: Service
+    private service: CloudService
   
-    constructor(moduleId: string, versionControlId: string, service: Service) {
+    constructor(moduleId: string, versionControlId: string, service: CloudService) {
         this.moduleId = moduleId
         this.versionControlId = versionControlId
         this.service = service
     }
 
-    updateService(service: Service): void {
+    updateService(service: CloudService): void {
         this.service = service
     }
 
@@ -22,7 +23,7 @@ export class DeploymentTarget<Service> {
         return this.versionControlId
     }
 
-    getTargetService(): Service {
+    getTargetService(): CloudService {
         return this.service
     }
 }

@@ -19,6 +19,7 @@ export class DeployModuleUseCase implements DeployModule {
       
         // create TargetService from infra info
         const service: S3 = {
+            type: 's3',
 			kind: "static-web-app",
 			bucketName: "...",
 			prefix: "...",

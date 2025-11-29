@@ -1,6 +1,6 @@
 import { DeploymentLog } from "@domain/entities/deployment-log"
 import { DeploymentTarget } from "@domain/value-objects/deployment-target"
-import { Service } from "@domain/value-objects/target-service"
+import { CloudService } from "@domain/value-objects/target-service"
 
 export enum EnvironmentType {
     DEV,
@@ -11,7 +11,7 @@ export class Environment {
 
     private constructor(
         private type: EnvironmentType,
-        readonly deploymentTargets: DeploymentTarget<Service> [],
+        readonly deploymentTargets: DeploymentTarget [],
         readonly logs: DeploymentLog [],
         private entryPoint: string | undefined
     ) {}
@@ -25,7 +25,7 @@ export class Environment {
     }
 
     /** ensure there is a target for this module, create if missing */
-    ensureDeploymentTarget(moduleId: string, versionControlId: string, service: Service): DeploymentTarget<Service> {
+    ensureDeploymentTarget(moduleId: string, versionControlId: string, service: CloudService): DeploymentTarget {
         let target = this.deploymentTargets.find(t => t.getModuleId() === moduleId)
         if (!target) {
             target = new DeploymentTarget(moduleId, versionControlId, service)
@@ -46,7 +46,7 @@ export class Environment {
         this.entryPoint = moduleId
     }
 
-    getEntryPoint(): DeploymentTarget<Service> | undefined {
+    getEntryPoint(): DeploymentTarget | undefined {
         if (!this.entryPoint) 
             return undefined
         return this.deploymentTargets.find(t => t.getModuleId() === this.entryPoint)

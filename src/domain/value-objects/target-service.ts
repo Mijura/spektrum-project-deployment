@@ -1,6 +1,9 @@
-export type Service = S3 | EC2
+export interface CloudService {
+    type: 's3' | 'ec2'
+}
 
-export interface S3 {
+export class S3 implements CloudService {
+    type: "s3"
     kind: "static-web-app"
     // S3 details
     bucketName: string
@@ -11,4 +14,6 @@ export interface S3 {
     publicAppUrl: string        // e.g. "https://project-123.jigjoy.com/"
 }
 
-export interface EC2 {}
+export class EC2 implements CloudService {
+    type: "ec2"
+}
