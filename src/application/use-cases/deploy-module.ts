@@ -15,16 +15,14 @@ export class DeployModuleUseCase implements DeployModule {
         const env = profile.getEnvironment(command.environmentType)
         if (!env) throw new Error("Environment not found")
 
-		
-      
         // create TargetService from infra info
         const service: S3 = {
             type: 's3',
 			kind: "static-web-app",
-			bucketName: "...",
-			prefix: "...",
-			assetBaseUrl: "...",
-			publicAppUrl: "..."
+			bucketName: "jigjoy-web-hosting",
+			prefix: `${command.projectId}`,
+			assetBaseUrl: `https://jigjoy-web-hosting.s3.eu-west-1.amazonaws.com/${command.projectId}`,
+			publicAppUrl: `https://${command.projectId}.jigjoy.io`
         }
 
 		const deploymentTarget = env.ensureDeploymentTarget(command.moduleId, command.versionControlId, service)
