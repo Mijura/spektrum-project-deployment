@@ -13,6 +13,7 @@ export function createDeployModuleHandler(useCase: DeployModule) {
 		try {
 
 			const { body } = event
+			
 			if (!body) {
 				throw new ValidationError("No page body")
 			}

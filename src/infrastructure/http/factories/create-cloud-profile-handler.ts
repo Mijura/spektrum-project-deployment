@@ -10,6 +10,7 @@ export function createCloudProfileHandler(useCase: CreateCloudProfile) {
 
 		try {
 			const projectId = event.pathParameters?.projectId
+			
 			if (!projectId) {
 				throw new ValidationError("Missing required path parameter: projectId")
 			}

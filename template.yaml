@@ -15,24 +15,24 @@ Globals:
 
 Resources:
 
-  DeployModuleFunction:
+  CreateCloudProfileFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/controllers/deploy.deployModuleHandler
+      Handler: src/infrastructure/http/handlers/create-cloud-profile.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: Deploy an project module
+      Description: Creates cloud profile for give project
       Environment:
         Variables:
-          APPLICATION_TABLE: !Ref ApplicationTable
+          PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /deploy
+            Path: /project-cloud-profile
             Method: POST
     Metadata:
       BuildMethod: esbuild
@@ -41,26 +41,35 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/controllers/deploy.ts
+          - src/infrastructure/http/handlers/create-cloud-profile.ts
 
-  GetEntryPointFunction:
+  DeployModuleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
-      Handler: index.getDevEntryPointHandler
+      Handler: src/infrastructure/http/handlers/deploy-module.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Deploy an project module
       Environment:
         Variables:
-          TABLE_NAME: !Ref ProjectCloudProfilesTable
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: !Ref ProjectCloudProfilesTable
+          PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
       Events:
-        ApiGetDevEntryPoint:
+        Api:
           Type: Api
           Properties:
-            Path: /projects/{projectId}/environments/dev/entry-point
-            Method: get
-            RestApiId: !Ref HttpApi
+            Path: /deploy-module
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/deploy-module.ts
   
   GetEntryPointFunction:
     Type: AWS::Serverless::Function
