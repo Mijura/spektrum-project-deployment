@@ -2,6 +2,7 @@ import { DeployModule } from "@app/ports/inbound/deploy-module"
 import { CloudProfileRepository } from "@app/ports/outbound/project-cloud-profile-repository"
 import { StaticWebsiteHosting } from "@app/ports/outbound/static-website-hosting"
 import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
+import { ProjectCloudProfile } from "@domain/entities/project-cloud-profile"
 import { S3 } from "@domain/value-objects/target-service"
 
 export class DeployModuleUseCase implements DeployModule {
@@ -9,8 +10,12 @@ export class DeployModuleUseCase implements DeployModule {
     constructor(private cloudProfileRepo: CloudProfileRepository, private hostingService: StaticWebsiteHosting){}
 
     async execute(command: DeployModuleCommand): Promise<void> {
-        const profile = await this.cloudProfileRepo.getByProjectId(command.projectId)
-        // if not exists, you can lazily create ProjectCloudProfile here
+        let profile = await this.cloudProfileRepo.getByProjectId(command.projectId)
+        
+        // if not exists, lazily create ProjectCloudProfile here
+        if (!profile) {
+            profile = ProjectCloudProfile.create(command.projectId)
+        }
       
         const env = profile.getEnvironment(command.environmentType)
         if (!env) 

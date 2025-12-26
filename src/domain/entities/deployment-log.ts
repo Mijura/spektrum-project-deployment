@@ -50,7 +50,7 @@ export class DeploymentLog {
         id: string,
         versionId: string
         startedAt: string,
-        finishedAt: string,
+        finishedAt: string | null,
         status: DeploymentStatus
     }) {
         return new DeploymentLog(

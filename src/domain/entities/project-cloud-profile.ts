@@ -16,6 +16,10 @@ export class ProjectCloudProfile {
         return new ProjectCloudProfile(projectId, [devEnv, prodEnv])
     }
 
+    static rehydrate(projectId: string, environments: Environment[]): ProjectCloudProfile {
+        return new ProjectCloudProfile(projectId, environments)
+    }
+
     getEnvironment(type: EnvironmentType): Environment | undefined {
         return this.environments.find(env => env.getType() == type)
     }

@@ -1,6 +1,6 @@
 import { ProjectCloudProfile } from "@domain/entities/project-cloud-profile"
 
 export interface CloudProfileRepository {
-    save(profile: ProjectCloudProfile): void
-    getByProjectId(projectId: string): ProjectCloudProfile
+    save(profile: ProjectCloudProfile): Promise<void>
+    getByProjectId(projectId: string): Promise<ProjectCloudProfile | undefined>
 }

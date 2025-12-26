@@ -10,6 +10,10 @@ export class GetEntryPointUseCase implements GetEntryPoint {
     async execute(projectId: string, envType: EnvironmentType) {
         const cloudProfile = await this.cloudProfileRepo.getByProjectId(projectId)
 
+        if (!cloudProfile) {
+            throw new Error(`ProjectCloudProfile with projectId ${projectId} not found`)
+        }
+
         const env = cloudProfile.getEnvironment(envType)
 
         if(!env)
