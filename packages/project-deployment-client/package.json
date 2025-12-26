@@ -1,6 +1,6 @@
 {
     "name": "@jigjoy-io/project-deployment-client",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "description": "The SDK for project deployment",
     "main": "dist/index.js",
     "module": "dist/index.mjs",

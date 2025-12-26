@@ -5,10 +5,14 @@ export enum EnvironmentType {
     PROD
 }
 
+export enum ModuleType {
+    FRONTEND
+}
+
 export type DeployModuleCommand = {
     projectId: string
     moduleId: string
-    moduleType: "frontend"
+    moduleType: ModuleType
     versionControlId: string
     environmentType: EnvironmentType
     setAsEntryPoint?: boolean
@@ -31,7 +35,7 @@ export class ProjectDeploymentClient {
             }
     
             await axios.post(
-                `${this.endpoint}/save-version`,
+                `${this.endpoint}/create-cloud-profile`,
                 payload
             )
 

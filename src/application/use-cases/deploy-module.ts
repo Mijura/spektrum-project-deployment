@@ -13,7 +13,8 @@ export class DeployModuleUseCase implements DeployModule {
         // if not exists, you can lazily create ProjectCloudProfile here
       
         const env = profile.getEnvironment(command.environmentType)
-        if (!env) throw new Error("Environment not found")
+        if (!env) 
+            throw new Error("Environment not found")
 
         // create TargetService from infra info
         const service: S3 = {
