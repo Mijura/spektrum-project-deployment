@@ -9,7 +9,17 @@ export function createCloudProfileHandler(useCase: CreateCloudProfile) {
 	return async function createCloudProfileHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 
 		try {
-			const projectId = event.pathParameters?.projectId
+			
+			const { body } = event
+			
+			if (!body) {
+				throw new ValidationError("No page body")
+			}
+			
+			const parsedBody = JSON.parse(body)
+			const projectId = parsedBody.projectId
+
+			console.log("Creating cloud profile for project:", projectId)
 			
 			if (!projectId) {
 				throw new ValidationError("Missing required path parameter: projectId")
@@ -18,6 +28,7 @@ export function createCloudProfileHandler(useCase: CreateCloudProfile) {
 			await useCase.execute(projectId)
 			return Responses._200()
 		} catch (error) {
+			console.error("Error creating cloud profile:", error)
 			return errorHandler(error)
 		}
     }

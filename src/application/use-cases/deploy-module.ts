@@ -16,11 +16,16 @@ export class DeployModuleUseCase implements DeployModule {
         if (!env) 
             throw new Error("Environment not found")
 
+
+        const bucket = process.env.WEB_HOSTING_BUCKET
+        if (!bucket) 
+            throw new Error("Missing WEB_HOSTING_BUCKET env variable")
+
         // create TargetService from infra info
         const service: S3 = {
             type: 's3',
 			kind: "static-web-app",
-			bucketName: "jigjoy-web-hosting",
+			bucketName: bucket,
 			prefix: `${command.projectId}`,
 			assetBaseUrl: `https://jigjoy-web-hosting.s3.eu-west-1.amazonaws.com/${command.projectId}`,
 			publicAppUrl: `https://${command.projectId}.jigjoy.io`

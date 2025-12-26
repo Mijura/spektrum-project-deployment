@@ -27,6 +27,7 @@ export function createDeployModuleHandler(useCase: DeployModule) {
 	
 			return Responses._201()
 		} catch (error) {
+			console.error("Error deploying module:", error)
 			return errorHandler(error)
 		}
     }

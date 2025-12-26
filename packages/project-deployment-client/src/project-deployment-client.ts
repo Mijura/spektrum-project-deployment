@@ -35,7 +35,7 @@ export class ProjectDeploymentClient {
             }
     
             await axios.post(
-                `${this.endpoint}/create-cloud-profile`,
+                `${this.endpoint}/project-cloud-profile`,
                 payload
             )
 

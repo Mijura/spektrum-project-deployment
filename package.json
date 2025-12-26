@@ -27,7 +27,7 @@
     "scripts": {
         "build": "sam build --profile Development",
         "deploy": "sam deploy --profile Development --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND",
-        "serve": "sam local start-api --profile Development --port 7000 --region eu-west-1 --env-vars env.json",
+        "serve": "sam local start-api --profile Development  --host 0.0.0.0 --port 7000 --region eu-west-1 --env-vars env.json",
         "docs": "npx swagger-ui-watcher openapi.yaml --port 7070",
         "dev": "npm-run-all --parallel serve docs",
         "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",

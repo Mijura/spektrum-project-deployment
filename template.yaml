@@ -56,6 +56,7 @@ Resources:
       Environment:
         Variables:
           PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
+          WEB_HOSTING_BUCKET: "{{resolve:secretsmanager:vars:SecretString:WebHostingBucket}}"
       Events:
         Api:
           Type: Api
