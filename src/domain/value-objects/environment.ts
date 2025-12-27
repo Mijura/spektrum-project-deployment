@@ -3,8 +3,8 @@ import { DeploymentTarget } from "@domain/value-objects/deployment-target"
 import { CloudService } from "@domain/value-objects/target-service"
 
 export enum EnvironmentType {
-    DEV,
-    PROD
+    DEV = "DEV",
+    PROD = "PROD"
 }
 
 export class Environment {
@@ -35,6 +35,10 @@ export class Environment {
             target.updateService(service)
         }
         return target
+    }
+
+    addDeploymentTarget(target: DeploymentTarget): void {
+        this.deploymentTargets.push(target)
     }
 
     setEntryPoint(moduleId: string) {

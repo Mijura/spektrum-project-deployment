@@ -19,6 +19,8 @@ export class GetEntryPointUseCase implements GetEntryPoint {
         if(!env)
             throw new Error('Environment doesnt exist')
 
+        console.log('cloud profile', cloudProfile)
+
         const deploymentTarget = env.getEntryPoint()
 
         if(!deploymentTarget)

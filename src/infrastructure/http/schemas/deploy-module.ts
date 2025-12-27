@@ -12,7 +12,7 @@ export const schema = {
 		},
         moduleType: {
 			type: "string",
-			enum: ["frontend"]
+			enum: ["FRONTEND"]
 		},
         versionControlId: {
 			type: "string",

@@ -8,7 +8,9 @@ import { DynamoDBCloudProfileRepository } from "./storage/cloud-profile-reposito
 import { GetEntryPointUseCase } from "@app/use-cases/get-entry-point"
 import { DeployModuleUseCase } from "@app/use-cases/deploy-module"
 
-const versioningClient = new ProjectVersioningClient()
+
+const projectVersioningEndpoint = process.env.PROJECT_VERSIONING_ENDPOINT || ""
+const versioningClient = new ProjectVersioningClient(projectVersioningEndpoint)
 
 // Services
 export const hostingService: StaticWebsiteHosting = new S3WebsiteHosting(versioningClient)

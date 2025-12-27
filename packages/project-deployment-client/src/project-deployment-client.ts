@@ -1,12 +1,12 @@
 import axios from "axios"
 
 export enum EnvironmentType {
-    DEV,
-    PROD
+    DEV = "DEV",
+    PROD = "PROD"
 }
 
 export enum ModuleType {
-    FRONTEND
+    FRONTEND = "FRONTEND"
 }
 
 export type DeployModuleCommand = {

@@ -33,7 +33,7 @@ export class DeployModuleUseCase implements DeployModule {
 			bucketName: bucket,
 			prefix: `${command.projectId}`,
 			assetBaseUrl: `https://jigjoy-web-hosting.s3.eu-west-1.amazonaws.com/${command.projectId}`,
-			publicAppUrl: `https://${command.projectId}.jigjoy.io`
+			publicAppUrl: `https://${command.projectId}.development.jigjoy.io`
         }
 
 		const deploymentTarget = env.ensureDeploymentTarget(command.moduleId, command.versionControlId, service)
@@ -43,6 +43,11 @@ export class DeployModuleUseCase implements DeployModule {
         }
 
 		await this.hostingService.deploy(deploymentTarget)
+
+        env.addDeploymentTarget(deploymentTarget)
+        profile.updateEnvironment(env)
+
+        console.log('profile', profile)
       
         // persist profile
         await this.cloudProfileRepo.save(profile)

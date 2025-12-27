@@ -16,6 +16,13 @@ export class ProjectCloudProfile {
         return new ProjectCloudProfile(projectId, [devEnv, prodEnv])
     }
 
+    updateEnvironment(environment: Environment): void {
+        const index = this.environments.findIndex(env => env.getType() == environment.getType())
+        if (index !== -1) {
+            this.environments[index] = environment
+        }
+    }
+
     static rehydrate(projectId: string, environments: Environment[]): ProjectCloudProfile {
         return new ProjectCloudProfile(projectId, environments)
     }
