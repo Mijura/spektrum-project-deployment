@@ -60,4 +60,26 @@ export class ProjectDeploymentClient {
 			throw error
 		}
     }
+
+    async getEntryPoint(projectId: string, environment: EnvironmentType): Promise<{
+        moduleId: string
+        assetBaseUrl: string
+        publicAppUrl: string
+    }> {
+
+        try {
+
+            const environmentKey = EnvironmentType[environment] as string
+
+            const response = await axios.get(
+                `${this.endpoint}/projects/${projectId}/environments/${environmentKey}/entry-point`
+            )
+
+            return response.data
+
+		} catch (error) {
+			console.error("Error getting entry point:", error)
+			throw error
+		}
+    }
 }
