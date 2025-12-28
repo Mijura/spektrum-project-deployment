@@ -3,6 +3,7 @@ import { Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { GetEntryPoint } from "@app/ports/inbound/get-entry-point"
 import { EnvironmentType } from "@domain/value-objects/environment"
+import { EntryPoint } from "@app/value-objects/entry-point"
     
 export function createGetEntryPointHandler(useCase: GetEntryPoint) {
     
@@ -24,7 +25,7 @@ export function createGetEntryPointHandler(useCase: GetEntryPoint) {
 
             const envType = EnvironmentType[environment as keyof typeof EnvironmentType]
             
-            const entryPointInfo = await useCase.execute(projectId, envType)
+            const entryPointInfo: EntryPoint = await useCase.execute(projectId, envType)
 
 			return Responses._200(entryPointInfo)
 		} catch (error) {

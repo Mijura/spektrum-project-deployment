@@ -2,6 +2,7 @@ import { DeployModule } from "@app/ports/inbound/deploy-module"
 import { CloudProfileRepository } from "@app/ports/outbound/project-cloud-profile-repository"
 import { StaticWebsiteHosting } from "@app/ports/outbound/static-website-hosting"
 import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
+import { EntryPoint } from "@app/value-objects/entry-point"
 import { ProjectCloudProfile } from "@domain/entities/project-cloud-profile"
 import { S3 } from "@domain/value-objects/target-service"
 
@@ -9,7 +10,7 @@ export class DeployModuleUseCase implements DeployModule {
 
     constructor(private cloudProfileRepo: CloudProfileRepository, private hostingService: StaticWebsiteHosting){}
 
-    async execute(command: DeployModuleCommand): Promise<void> {
+    async execute(command: DeployModuleCommand): Promise<EntryPoint> {
         let profile = await this.cloudProfileRepo.getByProjectId(command.projectId)
         
         // if not exists, lazily create ProjectCloudProfile here
@@ -51,6 +52,12 @@ export class DeployModuleUseCase implements DeployModule {
       
         // persist profile
         await this.cloudProfileRepo.save(profile)
+
+        return {
+            moduleId: deploymentTarget.getModuleId(),
+            assetBaseUrl: service.assetBaseUrl,
+            publicAppUrl: service.publicAppUrl
+        }
     }
     
 }

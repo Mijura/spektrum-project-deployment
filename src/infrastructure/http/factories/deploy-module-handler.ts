@@ -4,6 +4,7 @@ import { errorHandler } from "@infra/http/error-handler"
 import { DeployModule } from "@app/ports/inbound/deploy-module"
 import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
 import { schema } from "@infra/http/schemas/deploy-module"
+import { EntryPoint } from "@app/value-objects/entry-point"
     
 export function createDeployModuleHandler(useCase: DeployModule) {
     
@@ -23,9 +24,9 @@ export function createDeployModuleHandler(useCase: DeployModule) {
 			
 			const deployModuleCommand = parsedBody as DeployModuleCommand
 	
-			await useCase.execute(deployModuleCommand)
+			const entryPointInfo: EntryPoint = await useCase.execute(deployModuleCommand)
 	
-			return Responses._201()
+			return Responses._201(entryPointInfo)
 		} catch (error) {
 			console.error("Error deploying module:", error)
 			return errorHandler(error)
