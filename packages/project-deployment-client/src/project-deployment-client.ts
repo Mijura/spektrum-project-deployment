@@ -18,6 +18,12 @@ export type DeployModuleCommand = {
     setAsEntryPoint?: boolean
 }
 
+export type EntryPoint = {
+    moduleId: string
+    assetBaseUrl: string
+    publicAppUrl: string
+}
+
 export class ProjectDeploymentClient {
 
     private readonly endpoint: string
@@ -46,14 +52,16 @@ export class ProjectDeploymentClient {
         
     }
 
-    async deployModule(deployModuleCommand: DeployModuleCommand): Promise<void>{
+    async deployModule(deployModuleCommand: DeployModuleCommand): Promise<EntryPoint>{
 
         try {
 
-			await axios.post(
+			const response = await axios.post(
 				`${this.endpoint}/deploy-module`,
 				deployModuleCommand
 			)
+
+			return response.data as EntryPoint
 
 		} catch (error) {
 			console.error("Error during deploying module:", error)
@@ -61,11 +69,7 @@ export class ProjectDeploymentClient {
 		}
     }
 
-    async getEntryPoint(projectId: string, environment: EnvironmentType): Promise<{
-        moduleId: string
-        assetBaseUrl: string
-        publicAppUrl: string
-    }> {
+    async getEntryPoint(projectId: string, environment: EnvironmentType): Promise<EntryPoint> {
 
         try {
 
@@ -75,7 +79,7 @@ export class ProjectDeploymentClient {
                 `${this.endpoint}/projects/${projectId}/environments/${environmentKey}/entry-point`
             )
 
-            return response.data
+            return response.data as EntryPoint
 
 		} catch (error) {
 			console.error("Error getting entry point:", error)
