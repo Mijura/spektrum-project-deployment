@@ -1,4 +1,4 @@
-import { Environment, EnvironmentType } from "@domain/value-objects/environment"
+import { Environment, EnvironmentType } from "@domain/environment"
 
 export class ProjectCloudProfile {
     

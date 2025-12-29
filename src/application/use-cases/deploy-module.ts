@@ -1,10 +1,10 @@
-import { DeployModule } from "@app/ports/inbound/deploy-module"
-import { CloudProfileRepository } from "@app/ports/outbound/project-cloud-profile-repository"
-import { StaticWebsiteHosting } from "@app/ports/outbound/static-website-hosting"
+import { DeployModule } from "@app/ports/use-cases/deploy-module"
+import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
+import { StaticWebsiteHosting } from "@app/ports/services/static-website-hosting"
 import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
 import { EntryPoint } from "@app/value-objects/entry-point"
-import { ProjectCloudProfile } from "@domain/entities/project-cloud-profile"
-import { S3 } from "@domain/value-objects/target-service"
+import { ProjectCloudProfile } from "@domain/project-cloud-profile"
+import { S3 } from "@domain/target-service"
 
 export class DeployModuleUseCase implements DeployModule {
 

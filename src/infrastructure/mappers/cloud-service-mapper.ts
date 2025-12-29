@@ -1,4 +1,4 @@
-import { CloudService, S3, EC2 } from "@domain/value-objects/target-service"
+import { CloudService, S3, EC2 } from "@domain/target-service"
 
 export type CloudServiceRecord = 
 	| {

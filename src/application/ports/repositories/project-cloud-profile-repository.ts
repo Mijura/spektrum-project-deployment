@@ -1,4 +1,4 @@
-import { ProjectCloudProfile } from "@domain/entities/project-cloud-profile"
+import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 
 export interface CloudProfileRepository {
     save(profile: ProjectCloudProfile): Promise<void>

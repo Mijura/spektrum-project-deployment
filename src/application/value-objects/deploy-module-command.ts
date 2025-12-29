@@ -1,4 +1,4 @@
-import { EnvironmentType } from "@domain/value-objects/environment"
+import { EnvironmentType } from "@domain/environment"
 
 export type DeployModuleCommand = {
     projectId: string

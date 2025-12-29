@@ -1,5 +1,5 @@
-import { CloudProfileRepository } from "@app/ports/outbound/project-cloud-profile-repository"
-import { ProjectCloudProfile } from "@domain/entities/project-cloud-profile"
+import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
+import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb"
 import { ProjectCloudProfileMapper, ProjectCloudProfileRecord } from "@infra/mappers/project-cloud-profile-mapper"

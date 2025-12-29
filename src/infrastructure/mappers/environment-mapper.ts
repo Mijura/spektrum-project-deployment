@@ -1,4 +1,4 @@
-import { Environment, EnvironmentType } from "@domain/value-objects/environment"
+import { Environment, EnvironmentType } from "@domain/environment"
 import { DeploymentTargetMapper, DeploymentTargetRecord } from "./deployment-target-mapper"
 import { DeploymentLogMapper, DeploymentLogRecord } from "./deployment-log-mapper"
 import { CloudServiceMapper } from "./cloud-service-mapper"

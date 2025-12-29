@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
-import { GetEntryPoint } from "@app/ports/inbound/get-entry-point"
-import { EnvironmentType } from "@domain/value-objects/environment"
+import { GetEntryPoint } from "@app/ports/use-cases/get-entry-point"
+import { EnvironmentType } from "@domain/environment"
 import { EntryPoint } from "@app/value-objects/entry-point"
     
 export function createGetEntryPointHandler(useCase: GetEntryPoint) {

@@ -1,6 +1,6 @@
-import { DeploymentLog } from "@domain/entities/deployment-log"
-import { DeploymentTarget } from "@domain/value-objects/deployment-target"
-import { CloudService } from "@domain/value-objects/target-service"
+import { DeploymentLog } from "@domain/deployment-log"
+import { DeploymentTarget } from "@domain/deployment-target"
+import { CloudService } from "@domain/target-service"
 
 export enum EnvironmentType {
     DEV = "DEV",

@@ -1,8 +1,8 @@
 import { S3StorageFactory } from "@jigjoy-io/file-artifacts"
-import { StaticWebsiteHosting } from "@app/ports/outbound/static-website-hosting"
-import { DeploymentTarget } from "@domain/value-objects/deployment-target"
+import { StaticWebsiteHosting } from "@app/ports/services/static-website-hosting"
+import { DeploymentTarget } from "@domain/deployment-target"
 import { ProjectVersioningClient } from "@jigjoy-io/project-versioning-client"
-import { S3 } from "@domain/value-objects/target-service"
+import { S3 } from "@domain/target-service"
 
 export class S3WebsiteHosting implements StaticWebsiteHosting {
 

@@ -1,8 +1,8 @@
-import { GetEntryPoint } from "@app/ports/inbound/get-entry-point"
-import { CloudProfileRepository } from "@app/ports/outbound/project-cloud-profile-repository"
+import { GetEntryPoint } from "@app/ports/use-cases/get-entry-point"
+import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
 import { EntryPoint } from "@app/value-objects/entry-point"
-import { EnvironmentType } from "@domain/value-objects/environment"
-import { S3 } from "@domain/value-objects/target-service"
+import { EnvironmentType } from "@domain/environment"
+import { S3 } from "@domain/target-service"
 
 export class GetEntryPointUseCase implements GetEntryPoint {
     

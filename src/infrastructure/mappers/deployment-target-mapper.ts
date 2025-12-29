@@ -1,4 +1,4 @@
-import { DeploymentTarget } from "@domain/value-objects/deployment-target"
+import { DeploymentTarget } from "@domain/deployment-target"
 import { CloudServiceMapper, CloudServiceRecord } from "./cloud-service-mapper"
 
 export type DeploymentTargetRecord = {

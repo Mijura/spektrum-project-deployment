@@ -1,4 +1,4 @@
-import { DeploymentLog, DeploymentStatus } from "@domain/entities/deployment-log"
+import { DeploymentLog, DeploymentStatus } from "@domain/deployment-log"
 
 export type DeploymentLogRecord = {
 	id: string

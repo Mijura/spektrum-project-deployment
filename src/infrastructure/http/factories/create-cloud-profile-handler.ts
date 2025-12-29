@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
-import { CreateCloudProfile } from "@app/ports/inbound/create-cloud-profile"
+import { CreateCloudProfile } from "@app/ports/use-cases/create-cloud-profile"
     
 export function createCloudProfileHandler(useCase: CreateCloudProfile) {
     

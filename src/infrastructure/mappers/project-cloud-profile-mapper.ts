@@ -1,4 +1,4 @@
-import { ProjectCloudProfile } from "@domain/entities/project-cloud-profile"
+import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 import { EnvironmentMapper, EnvironmentRecord } from "./environment-mapper"
 
 export type ProjectCloudProfileRecord = {

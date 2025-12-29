@@ -1,6 +1,6 @@
-import { CreateCloudProfile } from "@app/ports/inbound/create-cloud-profile"
-import { CloudProfileRepository } from "@app/ports/outbound/project-cloud-profile-repository"
-import { ProjectCloudProfile } from "@domain/entities/project-cloud-profile"
+import { CreateCloudProfile } from "@app/ports/use-cases/create-cloud-profile"
+import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
+import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 
 export class CreateCloudProfileUseCase implements CreateCloudProfile {
 
