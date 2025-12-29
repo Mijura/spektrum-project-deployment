@@ -1,8 +1,8 @@
 import { DeployModule } from "@app/ports/use-cases/deploy-module"
 import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
 import { StaticWebsiteHosting } from "@app/ports/services/static-website-hosting"
-import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
-import { EntryPoint } from "@app/value-objects/entry-point"
+import { DeployModuleCommand } from "@app/dto/deploy-module"
+import { EntryPoint } from "@app/dto/entry-point"
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 import { S3 } from "@domain/target-service"
 

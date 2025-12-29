@@ -1,4 +1,4 @@
-import { EntryPoint } from "@app/value-objects/entry-point"
+import { EntryPoint } from "@app/dto/entry-point"
 import { EnvironmentType } from "@domain/environment"
 
 export interface GetEntryPoint {

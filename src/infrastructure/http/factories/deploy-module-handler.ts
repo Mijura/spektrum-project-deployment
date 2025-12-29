@@ -2,9 +2,9 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { DeployModule } from "@app/ports/use-cases/deploy-module"
-import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
+import { DeployModuleDTO } from "@app/dto/deploy-module"
 import { schema } from "@infra/http/schemas/deploy-module"
-import { EntryPoint } from "@app/value-objects/entry-point"
+import { EntryPointDTO } from "@app/dto/entry-point"
     
 export function createDeployModuleHandler(useCase: DeployModule) {
     
@@ -22,9 +22,9 @@ export function createDeployModuleHandler(useCase: DeployModule) {
 			const parsedBody = JSON.parse(body)
 			schemaValidator(schema, parsedBody)
 			
-			const deployModuleCommand = parsedBody as DeployModuleCommand
+			const deployModuleDTO = parsedBody as DeployModuleDTO
 	
-			const entryPointInfo: EntryPoint = await useCase.execute(deployModuleCommand)
+			const entryPointInfo: EntryPointDTO = await useCase.execute(deployModuleDTO)
 	
 			return Responses._201(entryPointInfo)
 		} catch (error) {

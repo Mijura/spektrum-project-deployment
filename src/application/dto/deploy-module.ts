@@ -1,6 +1,6 @@
 import { EnvironmentType } from "@domain/environment"
 
-export type DeployModuleCommand = {
+export type DeployModuleDTO = {
     projectId: string
     moduleId: string
     moduleType: "frontend"
