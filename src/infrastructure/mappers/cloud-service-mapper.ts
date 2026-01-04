@@ -1,6 +1,6 @@
 import { CloudService, S3, EC2 } from "@domain/target-service"
 
-export type CloudServiceRecord = 
+export type CloudServiceRecord =
 	| {
 			type: "s3"
 			kind: "static-web-app"
@@ -46,4 +46,3 @@ export class CloudServiceMapper {
 		}
 	}
 }
-

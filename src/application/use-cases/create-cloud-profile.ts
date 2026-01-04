@@ -3,18 +3,16 @@ import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-pr
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 
 export class CreateCloudProfileUseCase implements CreateCloudProfile {
+	constructor(private cloudProfileRepo: CloudProfileRepository) {}
 
-    constructor(private cloudProfileRepo: CloudProfileRepository){}
+	async execute(projectId: string): Promise<void> {
+		const profile = await this.cloudProfileRepo.getByProjectId(projectId)
 
-    async execute(projectId: string): Promise<void> {
-        const profile = await this.cloudProfileRepo.getByProjectId(projectId)
+		if (profile) {
+			throw new Error("Cloud Profile for given project already exists")
+		}
 
-        if(profile){
-            throw new Error('Cloud Profile for given project already exists')
-        }
-
-        const newProfile = ProjectCloudProfile.create(projectId)
-        await this.cloudProfileRepo.save(newProfile)
-    }
-
+		const newProfile = ProjectCloudProfile.create(projectId)
+		await this.cloudProfileRepo.save(newProfile)
+	}
 }

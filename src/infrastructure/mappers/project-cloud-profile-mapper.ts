@@ -10,9 +10,7 @@ export class ProjectCloudProfileMapper {
 	static toRecord(profile: ProjectCloudProfile): ProjectCloudProfileRecord {
 		return {
 			projectId: profile.projectId,
-			environments: profile.getEnvironments().map((env) =>
-				EnvironmentMapper.toRecord(env)
-			),
+			environments: profile.getEnvironments().map((env) => EnvironmentMapper.toRecord(env)),
 		}
 	}
 
@@ -25,4 +23,3 @@ export class ProjectCloudProfileMapper {
 		return records.map((record) => this.toDomain(record))
 	}
 }
-

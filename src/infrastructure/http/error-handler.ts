@@ -2,7 +2,7 @@ import { Responses } from "@jigjoy-io/serverless-core"
 
 /**
  * Handles errors and converts them to appropriate API Gateway responses.
- * 
+ *
  * @param error - The error to handle, which can be an Error instance or any unknown type
  * @returns An API Gateway proxy result with an appropriate status code and error message
  */
@@ -12,7 +12,6 @@ export function errorHandler(error: Error | unknown) {
 	let response: any
 
 	if (error instanceof Error) {
-
 		switch (error.name) {
 			case "ValidationError":
 				response = Responses._400({ errorMessage: error.message })

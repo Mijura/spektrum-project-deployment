@@ -33,4 +33,3 @@ export class DeploymentLogMapper {
 		return records.map((record) => this.toDomain(record))
 	}
 }
-

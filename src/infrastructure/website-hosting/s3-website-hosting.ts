@@ -5,24 +5,17 @@ import { ProjectVersioningClient } from "@jigjoy-io/project-versioning-client"
 import { S3 } from "@domain/target-service"
 
 export class S3WebsiteHosting implements StaticWebsiteHosting {
+	constructor(readonly projectVersioningClient: ProjectVersioningClient) {}
 
-    constructor(
-        readonly projectVersioningClient: ProjectVersioningClient
-    ) { }
+	async deploy(target: DeploymentTarget): Promise<void> {
+		const versionControlId = target.getVersionControlId()
+		const projectArtifacts = await this.projectVersioningClient.getLatestVersion(versionControlId)
 
-    async deploy(target: DeploymentTarget): Promise<void> {
+		const service = target.getTargetService() as S3
 
-        const versionControlId = target.getVersionControlId()
-        const projectArtifacts = await this.projectVersioningClient.getLatestVersion(versionControlId)
+		const factory = new S3StorageFactory(service.bucketName)
+		const s3Storage = factory.create()
 
-        const service = target.getTargetService() as S3
-
-        const factory = new S3StorageFactory(service.bucketName)
-        const s3Storage = factory.create()
-
-        await s3Storage.writeAll(service.prefix, projectArtifacts.buildArtifacts)
-                
-    }
-
-
+		await s3Storage.writeAll(service.prefix, projectArtifacts.buildArtifacts)
+	}
 }

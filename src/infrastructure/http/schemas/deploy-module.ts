@@ -1,5 +1,3 @@
-
-
 export const schema = {
 	type: "object",
 	required: ["projectId", "moduleId", "moduleType", "versionControlId", "environmentType"],
@@ -7,23 +5,22 @@ export const schema = {
 		projectId: {
 			type: "string",
 		},
-        moduleId: {
+		moduleId: {
 			type: "string",
 		},
-        moduleType: {
+		moduleType: {
 			type: "string",
-			enum: ["FRONTEND"]
+			enum: ["FRONTEND"],
 		},
-        versionControlId: {
+		versionControlId: {
 			type: "string",
 		},
-        environmentType: {
-            type: "string",
-			enum: ["DEV", "PROD"]
-        },
-        setAsEntryPoint: {
-			type: "boolean"
-        }
+		environmentType: {
+			type: "string",
+			enum: ["DEV", "PROD"],
+		},
+		setAsEntryPoint: {
+			type: "boolean",
+		},
 	},
 }
-

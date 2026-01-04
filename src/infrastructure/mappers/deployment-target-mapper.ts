@@ -25,4 +25,3 @@ export class DeploymentTargetMapper {
 		return records.map((record) => this.toDomain(record))
 	}
 }
-

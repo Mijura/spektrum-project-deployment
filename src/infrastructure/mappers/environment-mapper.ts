@@ -11,13 +11,10 @@ export type EnvironmentRecord = {
 }
 
 export class EnvironmentMapper {
-    
 	static toRecord(env: Environment): EnvironmentRecord {
 		const record: EnvironmentRecord = {
 			type: env.getType(),
-			deploymentTargets: env.deploymentTargets.map((target) =>
-				DeploymentTargetMapper.toRecord(target)
-			),
+			deploymentTargets: env.deploymentTargets.map((target) => DeploymentTargetMapper.toRecord(target)),
 			logs: env.logs.map((log) => DeploymentLogMapper.toRecord(log)),
 		}
 
@@ -35,11 +32,7 @@ export class EnvironmentMapper {
 		// Add deployment targets
 		record.deploymentTargets.forEach((targetData) => {
 			const service = CloudServiceMapper.toDomain(targetData.service)
-			env.ensureDeploymentTarget(
-				targetData.moduleId,
-				targetData.versionControlId,
-				service
-			)
+			env.ensureDeploymentTarget(targetData.moduleId, targetData.versionControlId, service)
 		})
 
 		// Add logs
@@ -60,4 +53,3 @@ export class EnvironmentMapper {
 		return records.map((record) => this.toDomain(record))
 	}
 }
-
