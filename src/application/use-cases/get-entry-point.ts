@@ -7,7 +7,7 @@ import { S3 } from "@domain/target-service"
 export class GetEntryPointUseCase implements GetEntryPoint {
 	constructor(readonly cloudProfileRepo: CloudProfileRepository) {}
 
-	async execute(projectId: string, envType: EnvironmentType): Promise<EntryPointDTO> {
+	async execute(projectId: string, envType: EnvironmentType): Promise<EntryPointDTO | undefined> {
 		const cloudProfile = await this.cloudProfileRepo.getByProjectId(projectId)
 
 		if (!cloudProfile) {
@@ -22,14 +22,16 @@ export class GetEntryPointUseCase implements GetEntryPoint {
 
 		const deploymentTarget = env.getEntryPoint()
 
-		if (!deploymentTarget) throw new Error("Entry point is not set")
+		if(deploymentTarget) {
+			const targetService = deploymentTarget.getTargetService() as S3
 
-		const targetService = deploymentTarget.getTargetService() as S3
-
-		return {
-			moduleId: deploymentTarget.getModuleId(),
-			assetBaseUrl: targetService.assetBaseUrl,
-			publicAppUrl: targetService.publicAppUrl,
+			return {
+				moduleId: deploymentTarget.getModuleId(),
+				assetBaseUrl: targetService.assetBaseUrl,
+				publicAppUrl: targetService.publicAppUrl,
+			}
 		}
+
+		return undefined
 	}
 }

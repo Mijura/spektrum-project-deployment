@@ -2,6 +2,7 @@ import { Environment, EnvironmentType } from "@domain/environment"
 import { DeploymentTargetMapper, DeploymentTargetRecord } from "./deployment-target-mapper"
 import { DeploymentLogMapper, DeploymentLogRecord } from "./deployment-log-mapper"
 import { CloudServiceMapper } from "./cloud-service-mapper"
+import { DeploymentTarget } from "@domain/deployment-target"
 
 export type EnvironmentRecord = {
 	type: EnvironmentType
@@ -32,7 +33,7 @@ export class EnvironmentMapper {
 		// Add deployment targets
 		record.deploymentTargets.forEach((targetData) => {
 			const service = CloudServiceMapper.toDomain(targetData.service)
-			env.ensureDeploymentTarget(targetData.moduleId, targetData.versionControlId, service)
+			env.addDeploymentTarget(new DeploymentTarget(targetData.moduleId, targetData.versionControlId, service))
 		})
 
 		// Add logs

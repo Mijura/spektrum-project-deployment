@@ -1,6 +1,5 @@
 import { DeploymentLog } from "@domain/deployment-log"
 import { DeploymentTarget } from "@domain/deployment-target"
-import { CloudService } from "@domain/target-service"
 
 export enum EnvironmentType {
 	DEV = "DEV",
@@ -23,17 +22,15 @@ export class Environment {
 		return new Environment(type, [], [], undefined)
 	}
 
-	/** ensure there is a target for this module, create if missing */
-	ensureDeploymentTarget(moduleId: string, versionControlId: string, service: CloudService): DeploymentTarget {
-		let target = this.deploymentTargets.find((t) => t.getModuleId() === moduleId)
-		if (!target) {
-			target = new DeploymentTarget(moduleId, versionControlId, service)
-			this.deploymentTargets.push(target)
-		} else {
-			// optional: update service config if e.g. bucket/prefix/url changed
-			target.updateService(service)
+	updateDeploymentTarget(target: DeploymentTarget): void {
+		const index = this.deploymentTargets.findIndex((t) => t.getModuleId() === target.getModuleId())
+		if (index !== -1) {
+			this.deploymentTargets[index] = target
 		}
-		return target
+	}
+
+	getDeploymentTarget(moduleId: string): DeploymentTarget | undefined {
+		return this.deploymentTargets.find((t) => t.getModuleId() === moduleId)
 	}
 
 	addDeploymentTarget(target: DeploymentTarget): void {
@@ -49,7 +46,8 @@ export class Environment {
 	}
 
 	getEntryPoint(): DeploymentTarget | undefined {
-		if (!this.entryPoint) return undefined
+		if (!this.entryPoint) 
+			return undefined
 		return this.deploymentTargets.find((t) => t.getModuleId() === this.entryPoint)
 	}
 
