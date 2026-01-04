@@ -1,95 +1,95 @@
 openapi: 3.0.1
 info:
-  title: Project Deployment API
-  version: "1.0.0"
-  description: >
-    Microservice for creating cloud profiles, deploying modules,
-    and fetching project entry point information.
+    title: Project Deployment API
+    version: "1.0.0"
+    description: >
+        Microservice for creating cloud profiles, deploying modules,
+        and fetching project entry point information.
 
 servers:
-  - url: http://localhost:7000
-    description: Local SAM API (adjust port if needed)
+    - url: http://localhost:7000
+      description: Local SAM API (adjust port if needed)
 
 paths:
-  /project-cloud-profile:
-    post:
-      summary: Create cloud profile
-      description: Creates a cloud profile for a given project.
-      operationId: createCloudProfile
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '201':
-          description: Cloud profile created successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: true
-        '400':
-          description: Invalid input
-        '500':
-          description: Internal server error
+    /project-cloud-profile:
+        post:
+            summary: Create cloud profile
+            description: Creates a cloud profile for a given project.
+            operationId: createCloudProfile
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            additionalProperties: true
+            responses:
+                "201":
+                    description: Cloud profile created successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                additionalProperties: true
+                "400":
+                    description: Invalid input
+                "500":
+                    description: Internal server error
 
-  /deploy-module:
-    post:
-      summary: Deploy project module
-      description: Deploys a module for a project using its cloud profile.
-      operationId: deployModule
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '202':
-          description: Deployment accepted / started
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: true
-        '400':
-          description: Invalid input
-        '404':
-          description: Cloud profile not found
-        '500':
-          description: Internal server error
+    /deploy-module:
+        post:
+            summary: Deploy project module
+            description: Deploys a module for a project using its cloud profile.
+            operationId: deployModule
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            additionalProperties: true
+            responses:
+                "202":
+                    description: Deployment accepted / started
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                additionalProperties: true
+                "400":
+                    description: Invalid input
+                "404":
+                    description: Cloud profile not found
+                "500":
+                    description: Internal server error
 
-  /projects/{projectId}/environments/{environment}/entry-point:
-    get:
-      summary: Get project entry point
-      description: Returns entry point details for the given project and environment.
-      operationId: getEntryPoint
-      parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: string
-          description: Project identifier
-        - in: path
-          name: environment
-          required: true
-          schema:
-            type: string
-          description: Environment name (e.g. dev, staging, prod)
-      responses:
-        '200':
-          description: Entry point details
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: true
-        '404':
-          description: Entry point or project not found
-        '500':
-          description: Internal server error
+    /projects/{projectId}/environments/{environment}/entry-point:
+        get:
+            summary: Get project entry point
+            description: Returns entry point details for the given project and environment.
+            operationId: getEntryPoint
+            parameters:
+                - in: path
+                  name: projectId
+                  required: true
+                  schema:
+                      type: string
+                  description: Project identifier
+                - in: path
+                  name: environment
+                  required: true
+                  schema:
+                      type: string
+                  description: Environment name (e.g. dev, staging, prod)
+            responses:
+                "200":
+                    description: Entry point details
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                additionalProperties: true
+                "404":
+                    description: Entry point or project not found
+                "500":
+                    description: Internal server error
