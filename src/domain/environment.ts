@@ -11,7 +11,7 @@ export class Environment {
 		private type: EnvironmentType,
 		readonly deploymentTargets: DeploymentTarget[],
 		readonly logs: DeploymentLog[],
-		private entryPoint: string | undefined,
+		private entryModuleId: string | undefined,
 	) {}
 
 	addLog(log: DeploymentLog) {

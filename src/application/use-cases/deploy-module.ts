@@ -4,9 +4,8 @@ import { StaticWebsiteHosting } from "@app/ports/services/static-website-hosting
 import { DeployModuleDTO } from "@app/dto/deploy-module"
 import { EntryPointDTO } from "@app/dto/entry-point"
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
-import { S3 } from "@domain/target-service"
+import { S3 } from "@domain/service/s3"
 import { DeploymentTarget } from "@domain/deployment-target"
-import { v4 as uuidv4 } from "uuid"
 
 export class DeployModuleUseCase implements DeployModule {
 	constructor(
@@ -26,24 +25,16 @@ export class DeployModuleUseCase implements DeployModule {
 		if (!env) 
 			throw new Error("Environment not found")
 
-		const bucket = process.env.WEB_HOSTING_BUCKET
-		if (!bucket)
-			throw new Error("Missing WEB_HOSTING_BUCKET env variable")
-
 		let deploymentTarget: DeploymentTarget | undefined = env.getDeploymentTarget(deployModuleDTO.moduleId)
 		if (!deploymentTarget) {
 
-			// create TargetService from infra info
-			const service: S3 = {
-				type: "s3",
-				kind: "static-web-app",
-				bucketName: bucket,
-				prefix: `${deployModuleDTO.projectId}`,
-				assetBaseUrl: `https://jigjoy-web-hosting.s3.eu-west-1.amazonaws.com/${deployModuleDTO.projectId}`,
-				publicAppUrl: `https://${uuidv4()}.development.jigjoy.io`,
-			}
+			const bucket = process.env.WEB_HOSTING_BUCKET
+			if (!bucket)
+				throw new Error("Missing WEB_HOSTING_BUCKET env variable")
 
-			deploymentTarget = new DeploymentTarget(deployModuleDTO.moduleId, deployModuleDTO.versionControlId, service)
+			const service: S3 = S3.create(bucket, `https://${bucket}.s3.eu-west-1.amazonaws.com`, `development.jigjoy.io`)
+
+			deploymentTarget = new DeploymentTarget(deployModuleDTO.moduleId, deployModuleDTO.versionControlId, service.bucketName, service)
 			env.addDeploymentTarget(deploymentTarget)
 		}
 
@@ -61,12 +52,10 @@ export class DeployModuleUseCase implements DeployModule {
 		// persist profile
 		await this.cloudProfileRepo.save(profile)
 
-		const targetService = deploymentTarget.getTargetService() as S3
-
 		return {
 			moduleId: deploymentTarget.getModuleId(),
-			assetBaseUrl: targetService.assetBaseUrl,
-			publicAppUrl: targetService.publicAppUrl,
+			assetBaseUrl: deploymentTarget.getAssetBaseUrl(),
+			publicAppUrl: deploymentTarget.getPublicAppUrl(),
 		}
 	}
 }

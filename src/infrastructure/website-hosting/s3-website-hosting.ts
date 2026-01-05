@@ -16,6 +16,6 @@ export class S3WebsiteHosting implements StaticWebsiteHosting {
 		const factory = new S3StorageFactory(service.bucketName)
 		const s3Storage = factory.create()
 
-		await s3Storage.writeAll(service.prefix, projectArtifacts.buildArtifacts)
+		await s3Storage.writeAll(service.id, projectArtifacts.buildArtifacts)
 	}
 }

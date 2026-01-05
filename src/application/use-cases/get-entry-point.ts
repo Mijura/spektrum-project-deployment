@@ -2,7 +2,6 @@ import { GetEntryPoint } from "@app/ports/use-cases/get-entry-point"
 import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
 import { EntryPointDTO } from "@app/dto/entry-point"
 import { EnvironmentType } from "@domain/environment"
-import { S3 } from "@domain/target-service"
 
 export class GetEntryPointUseCase implements GetEntryPoint {
 	constructor(readonly cloudProfileRepo: CloudProfileRepository) {}
@@ -23,12 +22,10 @@ export class GetEntryPointUseCase implements GetEntryPoint {
 		const deploymentTarget = env.getEntryPoint()
 
 		if(deploymentTarget) {
-			const targetService = deploymentTarget.getTargetService() as S3
-
 			return {
 				moduleId: deploymentTarget.getModuleId(),
-				assetBaseUrl: targetService.assetBaseUrl,
-				publicAppUrl: targetService.publicAppUrl,
+				assetBaseUrl: deploymentTarget.getAssetBaseUrl(),
+				publicAppUrl: deploymentTarget.getPublicAppUrl(),
 			}
 		}
 
