@@ -9,6 +9,7 @@ export class S3 extends CloudService {
 
 	private constructor(bucketName: string, bucketWebsiteEndpoint: string, cloudFrontDomain: string) {
         super()
+		this.type = ServiceType.S3
 		this.bucketName = bucketName
 		this.bucketWebsiteEndpoint = bucketWebsiteEndpoint
 		this.cloudFrontDomain = cloudFrontDomain
