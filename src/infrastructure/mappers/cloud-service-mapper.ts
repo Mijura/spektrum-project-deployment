@@ -1,48 +1,32 @@
-import { CloudService, S3, EC2 } from "@domain/target-service"
+import { S3 } from "@domain/service/s3"
+import { ServiceType } from "@domain/service/service-type"
 
-export type CloudServiceRecord =
+export type S3Record =
 	| {
-			type: "s3"
-			kind: "static-web-app"
+			type: ServiceType.S3
 			bucketName: string
-			prefix: string
-			assetBaseUrl: string
-			publicAppUrl: string
-	  }
-	| {
-			type: "ec2"
+			bucketWebsiteEndpoint: string
+			cloudFrontDomain: string
 	  }
 
 export class CloudServiceMapper {
-	static toRecord(service: CloudService): CloudServiceRecord {
-		if (service.type === "s3") {
+	static toRecord(service: S3): S3Record {
+		if (service.type === ServiceType.S3) {
 			const s3 = service as S3
 			return {
-				type: "s3",
-				kind: s3.kind,
+				type: ServiceType.S3,
 				bucketName: s3.bucketName,
-				prefix: s3.prefix,
-				assetBaseUrl: s3.assetBaseUrl,
-				publicAppUrl: s3.publicAppUrl,
-			}
-		} else {
-			return {
-				type: "ec2",
+				bucketWebsiteEndpoint: s3.bucketWebsiteEndpoint,
+				cloudFrontDomain: s3.cloudFrontDomain,
 			}
 		}
+		throw new Error("Unsupported service type")
 	}
 
-	static toDomain(record: CloudServiceRecord): CloudService {
-		if (record.type === "s3") {
-			const s3 = new S3()
-			s3.kind = record.kind
-			s3.bucketName = record.bucketName
-			s3.prefix = record.prefix
-			s3.assetBaseUrl = record.assetBaseUrl
-			s3.publicAppUrl = record.publicAppUrl
-			return s3
-		} else {
-			return new EC2()
+	static toDomain(record: S3Record): S3 {
+		if (record.type === ServiceType.S3) {
+			return S3.create(record.bucketName, record.bucketWebsiteEndpoint, record.cloudFrontDomain)
 		}
+		throw new Error("Unsupported service type")
 	}
 }

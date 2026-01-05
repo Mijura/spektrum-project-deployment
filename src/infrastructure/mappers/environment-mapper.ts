@@ -33,7 +33,13 @@ export class EnvironmentMapper {
 		// Add deployment targets
 		record.deploymentTargets.forEach((targetData) => {
 			const service = CloudServiceMapper.toDomain(targetData.service)
-			env.addDeploymentTarget(new DeploymentTarget(targetData.moduleId, targetData.versionControlId, service))
+			const deploymentTarget = DeploymentTarget.rehydrate({
+				moduleId: targetData.moduleId,
+				revisionId: targetData.revisionId,
+				folderName: targetData.folderName,
+				service: service,
+			})
+			env.addDeploymentTarget(deploymentTarget)
 		})
 
 		// Add logs

@@ -40,15 +40,16 @@ export class Environment {
 	setEntryPoint(moduleId: string) {
 		const exists = this.deploymentTargets.some((t) => t.getModuleId() === moduleId)
 
-		if (!exists) throw new Error("Entry point target must exist in this environment")
+		if (!exists) 
+			throw new Error("Entry point target must exist in this environment")
 
-		this.entryPoint = moduleId
+		this.entryModuleId = moduleId
 	}
 
 	getEntryPoint(): DeploymentTarget | undefined {
-		if (!this.entryPoint) 
+		if (!this.entryModuleId) 
 			return undefined
-		return this.deploymentTargets.find((t) => t.getModuleId() === this.entryPoint)
+		return this.deploymentTargets.find((t) => t.getModuleId() === this.entryModuleId)
 	}
 
 	getType() {

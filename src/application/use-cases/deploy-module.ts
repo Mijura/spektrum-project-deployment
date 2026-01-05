@@ -33,8 +33,7 @@ export class DeployModuleUseCase implements DeployModule {
 				throw new Error("Missing WEB_HOSTING_BUCKET env variable")
 
 			const service: S3 = S3.create(bucket, `https://${bucket}.s3.eu-west-1.amazonaws.com`, `development.jigjoy.io`)
-
-			deploymentTarget = new DeploymentTarget(deployModuleDTO.moduleId, deployModuleDTO.versionControlId, service.bucketName, service)
+			deploymentTarget = DeploymentTarget.create(deployModuleDTO.moduleId, deployModuleDTO.versionControlId, service)
 			env.addDeploymentTarget(deploymentTarget)
 		}
 
