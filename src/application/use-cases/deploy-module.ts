@@ -1,4 +1,4 @@
-import { DeployModule } from "@app/ports/use-cases/deploy-module"
+import { DeployModuleUseCase } from "@app/ports/use-cases/deploy-module"
 import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
 import { VersionControlService } from "@app/ports/services/version-control-service"
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
@@ -8,7 +8,7 @@ import { DeploymentTarget } from "@domain/deployment-target"
 import { EntryPoint } from "@app/value-objects/entry-point"
 import { S3 } from "@domain/service/s3"
 
-export class DeployModuleUseCase implements DeployModule {
+export class DeployModule implements DeployModuleUseCase {
 	constructor(
 		private cloudProfileRepo: CloudProfileRepository,
 		private versionControlService: VersionControlService,

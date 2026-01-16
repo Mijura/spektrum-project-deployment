@@ -1,8 +1,8 @@
-import { CreateCloudProfile } from "@app/ports/use-cases/create-cloud-profile"
+import { CreateCloudProfileUseCase } from "@app/ports/use-cases/create-cloud-profile"
 import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 
-export class CreateCloudProfileUseCase implements CreateCloudProfile {
+export class CreateCloudProfile implements CreateCloudProfileUseCase {
 	constructor(private cloudProfileRepo: CloudProfileRepository) {}
 
 	async execute(projectId: string): Promise<void> {

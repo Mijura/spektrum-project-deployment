@@ -1,3 +1,3 @@
-export interface CreateCloudProfile {
+export interface CreateCloudProfileUseCase {
 	execute(projectId: string): Promise<void>
 }

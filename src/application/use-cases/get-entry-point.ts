@@ -1,9 +1,9 @@
-import { GetEntryPoint } from "@app/ports/use-cases/get-entry-point"
+import { GetEntryPointUseCase } from "@app/ports/use-cases/get-entry-point"
 import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
 import { EntryPoint } from "@app/value-objects/entry-point"
 import { EnvironmentType } from "@domain/environment"
 
-export class GetEntryPointUseCase implements GetEntryPoint {
+export class GetEntryPoint implements GetEntryPointUseCase {
 	constructor(readonly cloudProfileRepo: CloudProfileRepository) {}
 
 	async execute(projectId: string, envType: EnvironmentType): Promise<EntryPoint | null> {

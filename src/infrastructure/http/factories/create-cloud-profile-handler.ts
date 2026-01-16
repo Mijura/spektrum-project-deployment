@@ -1,9 +1,9 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
-import { CreateCloudProfile } from "@app/ports/use-cases/create-cloud-profile"
+import { CreateCloudProfileUseCase } from "@app/ports/use-cases/create-cloud-profile"
 
-export function createCloudProfileHandler(useCase: CreateCloudProfile) {
+export function createCloudProfileHandler(createCloudProfileUseCase: CreateCloudProfileUseCase) {
 	return async function createCloudProfileHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 		try {
 			const { body } = event
@@ -21,7 +21,7 @@ export function createCloudProfileHandler(useCase: CreateCloudProfile) {
 				throw new ValidationError("Missing required path parameter: projectId")
 			}
 
-			await useCase.execute(projectId)
+			await createCloudProfileUseCase.execute(projectId)
 			return Responses._200()
 		} catch (error) {
 			console.error("Error creating cloud profile:", error)

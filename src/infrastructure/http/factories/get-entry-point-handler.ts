@@ -1,11 +1,11 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
-import { GetEntryPoint } from "@app/ports/use-cases/get-entry-point"
+import { GetEntryPointUseCase } from "@app/ports/use-cases/get-entry-point"
 import { EnvironmentType } from "@domain/environment"
 import { EntryPoint } from "@app/value-objects/entry-point"
 
-export function createGetEntryPointHandler(useCase: GetEntryPoint) {
+export function createGetEntryPointHandler(getEntryPointUseCase: GetEntryPointUseCase) {
 	return async function createCloudProfileHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 		try {
 			const projectId = event.pathParameters?.projectId
@@ -21,7 +21,7 @@ export function createGetEntryPointHandler(useCase: GetEntryPoint) {
 
 			const envType = EnvironmentType[environment as keyof typeof EnvironmentType]
 
-			const entryPoint: EntryPoint | null = await useCase.execute(projectId, envType)
+			const entryPoint: EntryPoint | null = await getEntryPointUseCase.execute(projectId, envType)
 
 			if (!entryPoint) {
 				return Responses._404()
