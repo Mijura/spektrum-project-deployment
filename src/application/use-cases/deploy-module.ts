@@ -1,11 +1,11 @@
 import { DeployModule } from "@app/ports/use-cases/deploy-module"
 import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
 import { StaticWebsiteHosting } from "@app/ports/services/static-website-hosting"
-import { DeployModuleDTO } from "@app/dto/deploy-module"
-import { EntryPointDTO } from "@app/dto/entry-point"
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
-import { S3 } from "@domain/service/s3"
+import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
 import { DeploymentTarget } from "@domain/deployment-target"
+import { EntryPoint } from "@app/value-objects/entry-point"
+import { S3 } from "@domain/service/s3"
 
 export class DeployModuleUseCase implements DeployModule {
 	constructor(
@@ -13,32 +13,33 @@ export class DeployModuleUseCase implements DeployModule {
 		private hostingService: StaticWebsiteHosting,
 	) {}
 
-	async execute(deployModuleDTO: DeployModuleDTO): Promise<EntryPointDTO> {
-		let profile = await this.cloudProfileRepo.getByProjectId(deployModuleDTO.projectId)
+	async execute(command: DeployModuleCommand): Promise<EntryPoint> {
+		let profile = await this.cloudProfileRepo.getByProjectId(command.projectId)
 
 		// if not exists, lazily create ProjectCloudProfile here
 		if (!profile) {
-			profile = ProjectCloudProfile.create(deployModuleDTO.projectId)
+			profile = ProjectCloudProfile.create(command.projectId)
 		}
 
-		const env = profile.getEnvironment(deployModuleDTO.environmentType)
-		if (!env) 
-			throw new Error("Environment not found")
+		const env = profile.getEnvironment(command.environmentType)
+		if (!env) throw new Error("Environment not found")
 
-		let deploymentTarget: DeploymentTarget | undefined = env.getDeploymentTarget(deployModuleDTO.moduleId)
+		let deploymentTarget: DeploymentTarget | undefined = env.getDeploymentTarget(command.moduleId)
 		if (!deploymentTarget) {
-
 			const bucket = process.env.WEB_HOSTING_BUCKET
-			if (!bucket)
-				throw new Error("Missing WEB_HOSTING_BUCKET env variable")
+			if (!bucket) throw new Error("Missing WEB_HOSTING_BUCKET env variable")
 
-			const service: S3 = S3.create(bucket, `https://${bucket}.s3.eu-west-1.amazonaws.com`, `development.jigjoy.io`)
-			deploymentTarget = DeploymentTarget.create(deployModuleDTO.moduleId, deployModuleDTO.versionControlId, service)
+			const service: S3 = S3.create(
+				bucket,
+				`https://${bucket}.s3.eu-west-1.amazonaws.com`,
+				`development.jigjoy.io`,
+			)
+			deploymentTarget = DeploymentTarget.create(command.moduleId, command.versionControlId, service)
 			env.addDeploymentTarget(deploymentTarget)
 		}
 
-		if (deployModuleDTO.setAsEntryPoint) {
-			env.setEntryPoint(deployModuleDTO.moduleId)
+		if (command.setAsEntryPoint) {
+			env.setEntryPoint(command.moduleId)
 		}
 
 		console.log("Deploying module: ", deploymentTarget.getModuleId())

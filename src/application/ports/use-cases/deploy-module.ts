@@ -1,6 +1,6 @@
-import { DeployModuleDTO } from "@app/dto/deploy-module"
-import { EntryPointDTO } from "@app/dto/entry-point"
+import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
+import { EntryPoint } from "@app/value-objects/entry-point"
 
 export interface DeployModule {
-	execute(command: DeployModuleDTO): Promise<EntryPointDTO>
+	execute(command: DeployModuleCommand): Promise<EntryPoint>
 }

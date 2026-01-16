@@ -1,12 +1,12 @@
 import { GetEntryPoint } from "@app/ports/use-cases/get-entry-point"
 import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
-import { EntryPointDTO } from "@app/dto/entry-point"
+import { EntryPoint } from "@app/value-objects/entry-point"
 import { EnvironmentType } from "@domain/environment"
 
 export class GetEntryPointUseCase implements GetEntryPoint {
 	constructor(readonly cloudProfileRepo: CloudProfileRepository) {}
 
-	async execute(projectId: string, envType: EnvironmentType): Promise<EntryPointDTO | undefined> {
+	async execute(projectId: string, envType: EnvironmentType): Promise<EntryPoint | null> {
 		const cloudProfile = await this.cloudProfileRepo.getByProjectId(projectId)
 
 		if (!cloudProfile) {
@@ -21,7 +21,7 @@ export class GetEntryPointUseCase implements GetEntryPoint {
 
 		const deploymentTarget = env.getEntryPoint()
 
-		if(deploymentTarget) {
+		if (deploymentTarget) {
 			return {
 				moduleId: deploymentTarget.getModuleId(),
 				assetBaseUrl: deploymentTarget.getAssetBaseUrl(),
@@ -29,6 +29,6 @@ export class GetEntryPointUseCase implements GetEntryPoint {
 			}
 		}
 
-		return undefined
+		return null
 	}
 }
