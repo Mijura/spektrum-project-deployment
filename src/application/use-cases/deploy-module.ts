@@ -1,17 +1,17 @@
 import { DeployModule } from "@app/ports/use-cases/deploy-module"
 import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
+import { VersionControlService } from "@app/ports/services/version-control-service"
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
 import { S3Client } from "@app/ports/services/s3-client"
 import { DeploymentTarget } from "@domain/deployment-target"
 import { EntryPoint } from "@app/value-objects/entry-point"
 import { S3 } from "@domain/service/s3"
-import { ProjectVersioningClient } from "@jigjoy-io/project-versioning-client"
 
 export class DeployModuleUseCase implements DeployModule {
 	constructor(
 		private cloudProfileRepo: CloudProfileRepository,
-		private projectVersioningClient: ProjectVersioningClient,
+		private versionControlService: VersionControlService,
 		private s3Client: S3Client,
 	) {}
 
@@ -45,7 +45,7 @@ export class DeployModuleUseCase implements DeployModule {
 
 		console.log("Deploying module: ", deploymentTarget.getModuleId())
 		const revisionId = deploymentTarget.getRevisionId()
-		const projectArtifacts = await this.projectVersioningClient.getLatestVersion(revisionId)
+		const projectArtifacts = await this.versionControlService.pull(revisionId)
 		await this.s3Client.upload(bucket, deploymentTarget.getFolderName(), projectArtifacts.buildArtifacts)
 		console.log("Module deployed: ", deploymentTarget.getModuleId())
 
