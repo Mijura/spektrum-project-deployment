@@ -19,7 +19,4 @@ export class ProjectCloudProfileMapper {
 		return ProjectCloudProfile.rehydrate(record.projectId, environments)
 	}
 
-	static toDomains(records: ProjectCloudProfileRecord[]): ProjectCloudProfile[] {
-		return records.map((record) => this.toDomain(record))
-	}
 }

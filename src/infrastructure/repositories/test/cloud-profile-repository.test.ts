@@ -1,12 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach } from "@rstest/core"
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
-import { DynamoDBDocumentClient, DeleteCommand } from "@aws-sdk/lib-dynamodb"
+import { DynamoDBDocumentClient, DeleteCommand, PutCommand } from "@aws-sdk/lib-dynamodb"
 import { DynamoDBCloudProfileRepository } from "@infra/repositories/cloud-profile-repository"
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 import { EnvironmentType } from "@domain/environment"
 import { DeploymentTarget } from "@domain/deployment-target"
 import { S3 } from "@domain/service/s3"
+import { ServiceType } from "@domain/service/service-type"
 
 describe("DynamoDB Cloud Profile Repository", () => {
 	let repository: DynamoDBCloudProfileRepository
@@ -283,5 +284,124 @@ describe("DynamoDB Cloud Profile Repository", () => {
 
 		expect(retrievedTarget).toBeDefined()
 		expect(retrievedTarget?.getModuleId()).toBe("module-new")
+	})
+
+	it("should throw an error when retrieving a profile with invalid service type", async () => {
+		const projectId = "test-project-invalid-service"
+		const tableName = process.env.PROJECT_CLOUD_PROFILE
+		if (!tableName) {
+			throw new Error("PROJECT_CLOUD_PROFILE environment variable is not set")
+		}
+		testProjectIds.push(projectId)
+
+		// Directly insert a record with an invalid service type to test the error branch in CloudServiceMapper.toDomain (line 29)
+		await ddbDocClient.send(
+			new PutCommand({
+				TableName: tableName,
+				Item: {
+					projectId: projectId,
+					environments: [
+						{
+							type: EnvironmentType.DEV,
+							deploymentTargets: [
+								{
+									moduleId: "module-123",
+									revisionId: "revision-456",
+									folderName: "folder-123",
+									service: {
+										type: "INVALID_SERVICE_TYPE" as ServiceType, // Invalid service type
+										bucketName: "test-bucket",
+										bucketWebsiteEndpoint: "https://test-bucket.s3.eu-west-1.amazonaws.com",
+										cloudFrontDomain: "development.jigjoy.io",
+									},
+								},
+							],
+						},
+					],
+				},
+			}),
+		)
+
+		await expect(repository.getByProjectId(projectId)).rejects.toThrow("Unsupported service type")
+	})
+
+	it("should throw an error when saving a profile with invalid service type", async () => {
+		const projectId = "test-project-invalid-service-save"
+		const profile = ProjectCloudProfile.create(projectId)
+		const devEnv = profile.getEnvironment(EnvironmentType.DEV)
+
+		const service = S3.create(
+			"test-bucket",
+			"https://test-bucket.s3.eu-west-1.amazonaws.com",
+			"development.jigjoy.io",
+		)
+		// Manipulate the service object to have an invalid type to test the error branch in CloudServiceMapper.toRecord (line 22)
+		// This tests the defensive check even though TypeScript normally prevents this
+		;(service as any).type = "INVALID_SERVICE_TYPE" as ServiceType
+
+		const deploymentTarget = DeploymentTarget.create("module-invalid", "revision-invalid", service)
+		devEnv?.addDeploymentTarget(deploymentTarget)
+		profile.updateEnvironment(devEnv!)
+
+		// Note: Not tracking for cleanup since save will fail
+		await expect(repository.save(profile)).rejects.toThrow("Unsupported service type")
+	})
+
+	it("should save and retrieve a profile with environment without entry point", async () => {
+		const projectId = "test-project-no-entry-point"
+		const profile = ProjectCloudProfile.create(projectId)
+		const devEnv = profile.getEnvironment(EnvironmentType.DEV)
+
+		const service = S3.create(
+			"test-bucket",
+			"https://test-bucket.s3.eu-west-1.amazonaws.com",
+			"development.jigjoy.io",
+		)
+		const deploymentTarget = DeploymentTarget.create("module-no-entry", "revision-no-entry", service)
+		devEnv?.addDeploymentTarget(deploymentTarget)
+		// Explicitly not setting entry point to test the branch where entryPoint is undefined
+		profile.updateEnvironment(devEnv!)
+
+		testProjectIds.push(projectId)
+
+		await repository.save(profile)
+
+		const retrieved = await repository.getByProjectId(projectId)
+		const retrievedDevEnv = retrieved?.getEnvironment(EnvironmentType.DEV)
+
+		expect(retrievedDevEnv).toBeDefined()
+		expect(retrievedDevEnv?.getDeploymentTarget("module-no-entry")).toBeDefined()
+		expect(retrievedDevEnv?.getEntryPoint()).toBeUndefined()
+	})
+
+	it("should save and retrieve a profile with deployment target using rehydrate path", async () => {
+		const projectId = "test-project-rehydrate"
+		const profile = ProjectCloudProfile.create(projectId)
+		const devEnv = profile.getEnvironment(EnvironmentType.DEV)
+
+		const service = S3.create(
+			"test-bucket",
+			"https://test-bucket.s3.eu-west-1.amazonaws.com",
+			"development.jigjoy.io",
+		)
+		// Create deployment target and then save/retrieve to ensure toDomain path in DeploymentTargetMapper is covered
+		const deploymentTarget = DeploymentTarget.create("module-rehydrate", "revision-rehydrate", service)
+		devEnv?.addDeploymentTarget(deploymentTarget)
+		devEnv?.setEntryPoint("module-rehydrate")
+		profile.updateEnvironment(devEnv!)
+
+		testProjectIds.push(projectId)
+
+		await repository.save(profile)
+
+		const retrieved = await repository.getByProjectId(projectId)
+		const retrievedDevEnv = retrieved?.getEnvironment(EnvironmentType.DEV)
+		const retrievedTarget = retrievedDevEnv?.getDeploymentTarget("module-rehydrate")
+
+		expect(retrievedTarget).toBeDefined()
+		expect(retrievedTarget?.getModuleId()).toBe("module-rehydrate")
+		expect(retrievedTarget?.getRevisionId()).toBe("revision-rehydrate")
+		expect(retrievedTarget?.getService().type).toBe(ServiceType.S3)
+		expect(retrievedTarget?.getService().bucketName).toBe("test-bucket")
 	})
 })

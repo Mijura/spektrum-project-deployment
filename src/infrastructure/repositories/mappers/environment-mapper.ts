@@ -30,7 +30,7 @@ export class EnvironmentMapper {
 		// Add deployment targets
 		record.deploymentTargets.forEach((targetData) => {
 			const service = CloudServiceMapper.toDomain(targetData.service)
-			const deploymentTarget = DeploymentTarget.rehydrate({
+			const deploymentTarget = DeploymentTargetMapper.toDomain({
 				moduleId: targetData.moduleId,
 				revisionId: targetData.revisionId,
 				folderName: targetData.folderName,
