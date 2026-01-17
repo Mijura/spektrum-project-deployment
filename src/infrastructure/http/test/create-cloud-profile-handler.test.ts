@@ -1,9 +1,6 @@
 import { APIGatewayProxyEvent } from "aws-lambda"
-
 import { describe, it, expect, beforeEach } from "@rstest/core"
-
 import { CreateCloudProfileUseCase } from "@app/ports/use-cases/create-cloud-profile"
-
 import { createCloudProfileHandler } from "@infra/http/factories/create-cloud-profile-handler"
 
 describe("Create Cloud Profile Handler", () => {

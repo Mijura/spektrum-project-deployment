@@ -2,7 +2,10 @@ import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-pr
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb"
-import { ProjectCloudProfileMapper, ProjectCloudProfileRecord } from "@infra/mappers/project-cloud-profile-mapper"
+import {
+	ProjectCloudProfileMapper,
+	ProjectCloudProfileRecord,
+} from "@infra/repositories/mappers/project-cloud-profile-mapper"
 
 export class DynamoDBCloudProfileRepository implements CloudProfileRepository {
 	private readonly docClient: DynamoDBDocumentClient

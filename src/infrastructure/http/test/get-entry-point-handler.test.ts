@@ -1,13 +1,8 @@
 import { APIGatewayProxyEvent } from "aws-lambda"
-
 import { describe, it, expect, beforeEach } from "@rstest/core"
-
 import { GetEntryPointUseCase } from "@app/ports/use-cases/get-entry-point"
-
 import { createGetEntryPointHandler } from "@infra/http/factories/get-entry-point-handler"
-
 import { EntryPoint } from "@app/value-objects/entry-point"
-import { EnvironmentType } from "@domain/environment"
 
 describe("Get Entry Point Handler", () => {
 	let handler: (event: APIGatewayProxyEvent) => Promise<any>
