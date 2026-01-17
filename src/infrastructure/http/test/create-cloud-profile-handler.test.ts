@@ -14,7 +14,7 @@ describe("Create Cloud Profile Handler", () => {
 		handler = undefined as any
 	})
 
-	it("returns 200 when projectId is provided", async () => {
+	it("returns 201 when projectId is provided", async () => {
 		const mockUseCase: CreateCloudProfileUseCase = {
 			execute: async () => {
 				// Success case - no return value

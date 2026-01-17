@@ -22,7 +22,7 @@ export function createDeployModuleHandler(deployModuleUseCase: DeployModuleUseCa
 
 			const entryPoint: EntryPoint = await deployModuleUseCase.execute(deployModuleCommand)
 
-			return Responses._201(entryPoint)
+			return Responses._200(entryPoint)
 		} catch (error) {
 			console.error("Error deploying module:", error)
 			return errorHandler(error)

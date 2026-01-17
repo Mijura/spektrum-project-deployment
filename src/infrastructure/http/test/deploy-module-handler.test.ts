@@ -1,13 +1,8 @@
 import { APIGatewayProxyEvent } from "aws-lambda"
-
 import { describe, it, expect, beforeEach } from "@rstest/core"
-
 import { DeployModuleUseCase } from "@app/ports/use-cases/deploy-module"
-
 import { createDeployModuleHandler } from "@infra/http/factories/deploy-module-handler"
-
 import { EntryPoint } from "@app/value-objects/entry-point"
-import { EnvironmentType } from "@domain/environment"
 
 describe("Deploy Module Handler", () => {
 	let handler: (event: APIGatewayProxyEvent) => Promise<any>
@@ -17,7 +12,7 @@ describe("Deploy Module Handler", () => {
 		handler = undefined as any
 	})
 
-	it("returns 201 and entry point data when valid command is provided", async () => {
+	it("returns 200 and entry point data when valid command is provided", async () => {
 		const mockEntryPoint: EntryPoint = {
 			moduleId: "module-123",
 			assetBaseUrl: "https://assets.example.com",
@@ -43,7 +38,7 @@ describe("Deploy Module Handler", () => {
 
 		const result = await handler(event)
 
-		expect(result.statusCode).toBe(201)
+		expect(result.statusCode).toBe(200)
 
 		const body = JSON.parse(result.body)
 
@@ -181,7 +176,7 @@ describe("Deploy Module Handler", () => {
 		expect(body.errorMessage).toBe("Something went wrong")
 	})
 
-	it("returns 201 when setAsEntryPoint is false", async () => {
+	it("returns 200 when setAsEntryPoint is false", async () => {
 		const mockEntryPoint: EntryPoint = {
 			moduleId: "module-789",
 			assetBaseUrl: "https://assets.test.com",
@@ -207,7 +202,7 @@ describe("Deploy Module Handler", () => {
 
 		const result = await handler(event)
 
-		expect(result.statusCode).toBe(201)
+		expect(result.statusCode).toBe(200)
 
 		const body = JSON.parse(result.body)
 
