@@ -31,7 +31,11 @@ describe("Create Cloud Profile Handler", () => {
 
 		const result = await handler(event)
 
-		expect(result.statusCode).toBe(200)
+		expect(result.statusCode).toBe(201)
+
+		const body = JSON.parse(result.body)
+
+		expect(body.message).toBe("Cloud profile created successfully")
 	})
 
 	it("returns 400 when body is missing", async () => {

@@ -20,9 +20,9 @@ export function createDeployModuleHandler(deployModuleUseCase: DeployModuleUseCa
 
 			const deployModuleCommand = parsedBody as DeployModuleCommand
 
-			const entryPointInfo: EntryPoint = await deployModuleUseCase.execute(deployModuleCommand)
+			const entryPoint: EntryPoint = await deployModuleUseCase.execute(deployModuleCommand)
 
-			return Responses._201(entryPointInfo)
+			return Responses._201(entryPoint)
 		} catch (error) {
 			console.error("Error deploying module:", error)
 			return errorHandler(error)
