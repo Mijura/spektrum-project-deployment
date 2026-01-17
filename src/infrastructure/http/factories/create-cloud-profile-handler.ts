@@ -22,7 +22,7 @@ export function createCloudProfileHandler(createCloudProfileUseCase: CreateCloud
 			}
 
 			await createCloudProfileUseCase.execute(projectId)
-			return Responses._200()
+			return Responses._201({ message: "Cloud profile created successfully" })
 		} catch (error) {
 			console.error("Error creating cloud profile:", error)
 			return errorHandler(error)

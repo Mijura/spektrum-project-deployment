@@ -28,7 +28,7 @@ export function createGetEntryPointHandler(getEntryPointUseCase: GetEntryPointUs
 			}
 
 			return Responses._200(entryPoint)
-		} catch (error) {
+		} catch (error: unknown) {
 			console.error("Error getting entry point:", error)
 			return errorHandler(error)
 		}

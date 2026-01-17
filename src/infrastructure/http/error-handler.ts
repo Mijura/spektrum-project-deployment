@@ -16,6 +16,9 @@ export function errorHandler(error: Error | unknown) {
 			case "ValidationError":
 				response = Responses._400({ errorMessage: error.message })
 				break
+			default:
+				response = Responses._500({ errorMessage: "Something went wrong" })
+				break
 		}
 	} else {
 		response = Responses._500({ errorMessage: "Something went wrong" })
