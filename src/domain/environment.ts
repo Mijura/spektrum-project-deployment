@@ -10,16 +10,11 @@ export class Environment {
 	private constructor(
 		private type: EnvironmentType,
 		readonly deploymentTargets: DeploymentTarget[],
-		readonly logs: DeploymentLog[],
 		private entryModuleId: string | undefined,
 	) {}
 
-	addLog(log: DeploymentLog) {
-		this.logs.push(log)
-	}
-
 	static create(type: EnvironmentType): Environment {
-		return new Environment(type, [], [], undefined)
+		return new Environment(type, [], undefined)
 	}
 
 	updateDeploymentTarget(target: DeploymentTarget): void {

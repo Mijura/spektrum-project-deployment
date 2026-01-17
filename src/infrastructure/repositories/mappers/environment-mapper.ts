@@ -1,13 +1,11 @@
 import { Environment, EnvironmentType } from "@domain/environment"
 import { DeploymentTargetMapper, DeploymentTargetRecord } from "./deployment-target-mapper"
-import { DeploymentLogMapper, DeploymentLogRecord } from "./deployment-log-mapper"
 import { CloudServiceMapper } from "./cloud-service-mapper"
 import { DeploymentTarget } from "@domain/deployment-target"
 
 export type EnvironmentRecord = {
 	type: EnvironmentType
 	deploymentTargets: DeploymentTargetRecord[]
-	logs: DeploymentLogRecord[]
 	entryPoint?: string
 }
 
@@ -16,7 +14,6 @@ export class EnvironmentMapper {
 		const record: EnvironmentRecord = {
 			type: env.getType(),
 			deploymentTargets: env.deploymentTargets.map((target) => DeploymentTargetMapper.toRecord(target)),
-			logs: env.logs.map((log) => DeploymentLogMapper.toRecord(log)),
 		}
 
 		const entryPoint = env.getEntryPoint()
@@ -40,12 +37,6 @@ export class EnvironmentMapper {
 				service: service,
 			})
 			env.addDeploymentTarget(deploymentTarget)
-		})
-
-		// Add logs
-		record.logs.forEach((logData) => {
-			const log = DeploymentLogMapper.toDomain(logData)
-			env.addLog(log)
 		})
 
 		// Set entry point if exists

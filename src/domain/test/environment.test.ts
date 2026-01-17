@@ -1,7 +1,6 @@
 import { describe, it, expect } from "@rstest/core"
 import { Environment, EnvironmentType } from "@domain/environment"
 import { DeploymentTarget } from "@domain/deployment-target"
-import { DeploymentLog, DeploymentStatus } from "@domain/deployment-log"
 import { S3 } from "@domain/service/s3"
 
 describe("Environment", () => {
@@ -11,7 +10,6 @@ describe("Environment", () => {
 
 			expect(env.getType()).toBe(EnvironmentType.DEV)
 			expect(env.deploymentTargets).toHaveLength(0)
-			expect(env.logs).toHaveLength(0)
 			expect(env.getEntryPoint()).toBeUndefined()
 		})
 
@@ -139,29 +137,6 @@ describe("Environment", () => {
 			const entryPoint = env.getEntryPoint()
 
 			expect(entryPoint).toBeUndefined()
-		})
-	})
-
-	describe("addLog", () => {
-		it("should add a deployment log to the environment", () => {
-			const env = Environment.create(EnvironmentType.DEV)
-			const log = DeploymentLog.create("version-1")
-
-			env.addLog(log)
-
-			expect(env.logs).toHaveLength(1)
-			expect(env.logs[0].id).toBe(log.id)
-		})
-
-		it("should add multiple logs", () => {
-			const env = Environment.create(EnvironmentType.DEV)
-			const log1 = DeploymentLog.create("version-1")
-			const log2 = DeploymentLog.create("version-2")
-
-			env.addLog(log1)
-			env.addLog(log2)
-
-			expect(env.logs).toHaveLength(2)
 		})
 	})
 
