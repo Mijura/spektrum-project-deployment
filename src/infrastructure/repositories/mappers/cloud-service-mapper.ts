@@ -1,13 +1,12 @@
 import { S3 } from "@domain/service/s3"
 import { ServiceType } from "@domain/service/service-type"
 
-export type S3Record =
-	| {
-			type: ServiceType.S3
-			bucketName: string
-			bucketWebsiteEndpoint: string
-			cloudFrontDomain: string
-	  }
+export type S3Record = {
+	type: ServiceType.S3
+	bucketName: string
+	bucketWebsiteEndpoint: string
+	cloudFrontDomain: string
+}
 
 export class CloudServiceMapper {
 	static toRecord(service: S3): S3Record {
