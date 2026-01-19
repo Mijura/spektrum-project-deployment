@@ -46,6 +46,9 @@ export class DeployModule implements DeployModuleUseCase {
 		console.log("Deploying module: ", deploymentTarget.getModuleId())
 		const revisionId = deploymentTarget.getRevisionId()
 		const projectArtifacts = await this.versionControlService.pull(revisionId)
+		
+		// delete the folder before uploading new artifacts
+		await this.s3Client.deleteFolder(bucket, deploymentTarget.getFolderName())
 		await this.s3Client.upload(bucket, deploymentTarget.getFolderName(), projectArtifacts.buildArtifacts)
 		console.log("Module deployed: ", deploymentTarget.getModuleId())
 
