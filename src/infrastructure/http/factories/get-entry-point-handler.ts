@@ -24,7 +24,11 @@ export function createGetEntryPointHandler(getEntryPointUseCase: GetEntryPointUs
 			const entryPoint: EntryPoint | null = await getEntryPointUseCase.execute(projectId, envType)
 
 			if (!entryPoint) {
-				return Responses._404()
+				return Responses._200({
+					moduleId: null,
+					assetBaseUrl: null,
+					publicAppUrl: null,
+				})
 			}
 
 			return Responses._200(entryPoint)
