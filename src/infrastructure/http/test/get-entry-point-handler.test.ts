@@ -43,7 +43,7 @@ describe("Get Entry Point Handler", () => {
 		expect(body.publicAppUrl).toBe("https://app.example.com")
 	})
 
-	it("returns 404 when entry point does not exist", async () => {
+	it("returns empty entry point with null values when entry point does not exist", async () => {
 		const mockUseCase: GetEntryPointUseCase = {
 			execute: async () => null,
 		}
@@ -59,7 +59,13 @@ describe("Get Entry Point Handler", () => {
 
 		const result = await handler(event)
 
-		expect(result.statusCode).toBe(404)
+		expect(result.statusCode).toBe(200)
+
+		const body = JSON.parse(result.body)
+
+		expect(body.moduleId).toBeNull()
+		expect(body.assetBaseUrl).toBeNull()
+		expect(body.publicAppUrl).toBeNull()
 	})
 
 	it("returns 400 when projectId is missing from path parameters", async () => {
