@@ -1,0 +1,101 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  project-deployment (LOCAL)
+
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+
+Resources:
+  LocalApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: local
+      Cors:
+        AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+        AllowHeaders: "'content-type'"
+        AllowOrigin: "'*'"
+
+  CreateCloudProfileFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/create-cloud-profile.handler
+      Description: Creates cloud profile for given project (local)
+      Environment:
+        Variables:
+          PROJECT_CLOUD_PROFILE: "ProjectCloudProfile"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /project-cloud-profile
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/create-cloud-profile.ts
+
+  DeployModuleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/deploy-module.handler
+      Description: Deploy a project module (local)
+      Environment:
+        Variables:
+          PROJECT_CLOUD_PROFILE: "ProjectCloudProfile"
+          WEB_HOSTING_BUCKET: ""
+          PROJECT_VERSIONING_ENDPOINT: ""
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /deploy-module
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/deploy-module.ts
+
+  GetEntryPointFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/get-entry-point.handler
+      Description: Get entry point details for projectId/environment (local)
+      Environment:
+        Variables:
+          PROJECT_CLOUD_PROFILE: "ProjectCloudProfile"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /projects/{projectId}/environments/{environment}/entry-point
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/get-entry-point.ts
