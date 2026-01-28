@@ -1,39 +1,27 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
+AWSTemplateFormatVersion: "2010-09-09"
 Description: >
   project-deployment
 
 Transform:
-- AWS::Serverless-2016-10-31
+  - AWS::Serverless-2016-10-31
 
 Globals:
-  Api:
-    Cors:
-      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
-      AllowHeaders: "'content-type'"
-      AllowOrigin: "'*'"
+  Function:
+    Runtime: nodejs22.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
 
 Resources:
-
   CreateCloudProfileFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/infrastructure/http/handlers/create-cloud-profile.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Creates cloud profile for give project
+      Description: Creates cloud profile for given project
       Environment:
         Variables:
           PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project-cloud-profile
-            Method: POST
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -47,23 +35,12 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/infrastructure/http/handlers/deploy-module.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Deploy an project module
+      Description: Deploy a project module
       Environment:
         Variables:
           PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
           WEB_HOSTING_BUCKET: "{{resolve:secretsmanager:vars:SecretString:WebHostingBucket}}"
           PROJECT_VERSIONING_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:ProjectVersioningEndpoint}}"
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /deploy-module
-            Method: POST
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -72,26 +49,15 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - src/infrastructure/http/handlers/deploy-module.ts
-  
+
   GetEntryPointFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/infrastructure/http/handlers/get-entry-point.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Get entry point details for projectId
+      Description: Get entry point details for projectId/environment
       Environment:
         Variables:
           PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /projects/{projectId}/environments/{environment}/entry-point
-            Method: GET
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -100,7 +66,7 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - src/infrastructure/http/handlers/get-entry-point.ts
-  
+
   ProjectCloudProfileTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -114,8 +80,17 @@ Resources:
           KeyType: HASH
 
 Outputs:
-  DeploymentServiceApi:
-    Description: "API Gateway URL for the deployment service"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  CreateCloudProfileFunctionArn:
+    Value: !GetAtt CreateCloudProfileFunction.Arn
     Export:
-      Name: DeploymentServiceApi 
+      Name: !Sub "${AWS::StackName}-CreateCloudProfileFunctionArn"
+
+  DeployModuleFunctionArn:
+    Value: !GetAtt DeployModuleFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-DeployModuleFunctionArn"
+
+  GetEntryPointFunctionArn:
+    Value: !GetAtt GetEntryPointFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-GetEntryPointFunctionArn"
