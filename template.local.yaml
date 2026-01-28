@@ -64,7 +64,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref LocalApi
-            Path: /deploy-module
+            Path: /module
             Method: POST
     Metadata:
       BuildMethod: esbuild
