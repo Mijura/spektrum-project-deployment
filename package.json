@@ -8,7 +8,7 @@
 		"@aws-sdk/client-s3": "^3.744.0",
 		"@aws-sdk/lib-dynamodb": "^3.398.0",
 		"@jigjoy-io/file-artifacts": "^0.0.7",
-		"@jigjoy-io/project-versioning-client": "^0.0.8",
+		"@jigjoy-io/platform-sdk": "^0.0.5",
 		"@jigjoy-io/serverless-core": "^0.0.3",
 		"uuid": "^13.0.0"
 	},
@@ -28,11 +28,10 @@
 	},
 	"scripts": {
 		"build:local": "sam build --template template.local.yaml --profile Development",
-		"build": "sam build --profile Development",
-		"deploy": "sam deploy --profile Development --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND",
-		"serve": "sam local start-api --profile Development -t .aws-sam/build/template.yaml --host 0.0.0.0 --port 7000 --region eu-west-1 --env-vars env.json",
+		"serve:local": "sam local start-api --profile Development -t .aws-sam/build/template.yaml --host 0.0.0.0 --port 7000 --region eu-west-1 --env-vars env.json",
+		"build:dev": "sam build --profile Development",
+		"deploy:dev": "sam deploy --profile Development --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND",
 		"docs": "npx swagger-ui-watcher openapi.yaml --port 7070",
-		"dev": "npm-run-all --parallel serve docs",
 		"format": "prettier --write \"src/**/*.{ts,tsx}\"",
 		"test": "rstest -c rstest.config.ts",
 		"coverage": "rstest --coverage"

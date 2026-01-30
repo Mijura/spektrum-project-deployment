@@ -1,18 +1,18 @@
 import { VersionControlService } from "@app/ports/services/version-control-service"
-import { ProjectVersioningClient } from "@jigjoy-io/project-versioning-client"
 import { Version } from "@app/value-objects/version"
 import { FileArtifacts } from "@app/value-objects/file-artifacts"
+import { PlatformSDK } from "@jigjoy-io/platform-sdk"
 
 export class JigJoyVersionControl implements VersionControlService {
-	private readonly projectVersioning: ProjectVersioningClient
+	private readonly jigjoyClient: PlatformSDK
 	constructor() {
-		const projectVersioningEndpoint = process.env.PROJECT_VERSIONING_ENDPOINT as string
+		const jigjoyApiEndpoint = process.env.JIGJOY_API_ENDPOINT as string
 
-		this.projectVersioning = new ProjectVersioningClient(projectVersioningEndpoint)
+		this.jigjoyClient = new PlatformSDK(jigjoyApiEndpoint)
 	}
 
 	async pull(repositoryId: string): Promise<Version> {
-		const response = await this.projectVersioning.getLatestVersion(repositoryId)
+		const response = await this.jigjoyClient.versioning.getLatestVersion(repositoryId)
 
 		const version: Version = {
 			repositoryId: response.projectHistoryId,
@@ -24,7 +24,7 @@ export class JigJoyVersionControl implements VersionControlService {
 	}
 
 	async initializeRepository(): Promise<string> {
-		return await this.projectVersioning.initializeProjectHistory()
+		return await this.jigjoyClient.versioning.initializeProjectHistory()
 	}
 
 	async push(repositoryId: string, buildArtifacts: FileArtifacts, sourceCodeArtifacts: FileArtifacts): Promise<void> {
@@ -33,6 +33,6 @@ export class JigJoyVersionControl implements VersionControlService {
 			buildArtifacts: buildArtifacts,
 			sourceCodeArtifacts: sourceCodeArtifacts,
 		}
-		await this.projectVersioning.saveVersion(version)
+		await this.jigjoyClient.versioning.saveVersion(version)
 	}
 }
