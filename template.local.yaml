@@ -58,7 +58,7 @@ Resources:
         Variables:
           PROJECT_CLOUD_PROFILE: "ProjectCloudProfile"
           WEB_HOSTING_BUCKET: ""
-          PROJECT_VERSIONING_ENDPOINT: ""
+          JIGJOY_API_ENDPOINT: ""
       Events:
         Api:
           Type: Api
