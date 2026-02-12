@@ -1,4 +1,4 @@
-import { Responses } from "@jigjoy-io/serverless-core"
+import { Responses } from "@jigjoy-ai/serverless-core"
 
 /**
  * Handles errors and converts them to appropriate API Gateway responses.

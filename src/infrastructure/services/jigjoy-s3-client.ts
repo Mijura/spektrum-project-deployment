@@ -1,6 +1,6 @@
 import { S3Client } from "@app/ports/services/s3-client"
 import { FileArtifacts } from "@app/value-objects/file-artifacts"
-import { S3StorageFactory } from "@jigjoy-io/file-artifacts"
+import { S3StorageFactory } from "@jigjoy-ai/file-artifacts"
 
 export class JigJoyS3Client implements S3Client {
 

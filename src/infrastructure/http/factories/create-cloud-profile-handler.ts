@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { Responses, ValidationError } from "@jigjoy-io/serverless-core"
+import { Responses, ValidationError } from "@jigjoy-ai/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { CreateCloudProfileUseCase } from "@app/ports/use-cases/create-cloud-profile"
 

@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
+import { Responses, schemaValidator, ValidationError } from "@jigjoy-ai/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
 import { DeployModuleUseCase } from "@app/ports/use-cases/deploy-module"
 import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
