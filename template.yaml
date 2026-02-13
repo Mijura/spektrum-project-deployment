@@ -19,6 +19,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/create-cloud-profile.handler
       Description: Creates cloud profile for given project
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectCloudProfileTable
       Environment:
         Variables:
           PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
@@ -36,10 +39,15 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/deploy-module.handler
       Description: Deploy a project module
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectCloudProfileTable
+        - S3CrudPolicy:
+            BucketName: !Ref WebHostingBucket
       Environment:
         Variables:
           PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
-          WEB_HOSTING_BUCKET: "{{resolve:secretsmanager:vars:SecretString:WebHostingBucket}}"
+          WEB_HOSTING_BUCKET: !Ref WebHostingBucket
           JIGJOY_API_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:JigJoyApiEndpoint}}"
     Metadata:
       BuildMethod: esbuild
@@ -55,6 +63,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/get-entry-point.handler
       Description: Get entry point details for projectId/environment
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectCloudProfileTable
       Environment:
         Variables:
           PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
@@ -70,7 +81,7 @@ Resources:
   ProjectCloudProfileTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: ProjectCloudProfile
+      TableName: !Sub "${AWS::StackName}-ProjectCloudProfile"
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: projectId
@@ -78,6 +89,11 @@ Resources:
       KeySchema:
         - AttributeName: projectId
           KeyType: HASH
+
+  WebHostingBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${AWS::StackName}-web-hosting"
 
 Outputs:
   CreateCloudProfileFunctionArn:
@@ -94,3 +110,8 @@ Outputs:
     Value: !GetAtt GetEntryPointFunction.Arn
     Export:
       Name: !Sub "${AWS::StackName}-GetEntryPointFunctionArn"
+
+  WebHostingBucketName:
+    Value: !Ref WebHostingBucket
+    Export:
+      Name: !Sub "${AWS::StackName}-WebHostingBucketName"
