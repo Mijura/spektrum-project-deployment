@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: >
-  project-deployment
+  Project Deployment is a service that manages the deployment of projects to the cloud.
 
 Transform:
   - AWS::Serverless-2016-10-31
