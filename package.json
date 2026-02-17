@@ -8,8 +8,8 @@
 		"@aws-sdk/client-s3": "^3.744.0",
 		"@aws-sdk/lib-dynamodb": "^3.398.0",
 		"@jigjoy-ai/file-artifacts": "^0.0.8",
-		"@jigjoy-ai/platform-sdk": "^0.0.9",
 		"@jigjoy-ai/serverless-core": "^0.0.5",
+		"@jigjoy-ai/spektrum-client": "^0.0.1",
 		"uuid": "^13.0.0"
 	},
 	"devDependencies": {

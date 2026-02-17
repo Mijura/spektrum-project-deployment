@@ -1034,20 +1034,20 @@
   resolved "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.12.tgz"
   integrity sha512-uqZMTLr/zR/ed4jIGnwSLkaHmPjOjJvnm6TVVitAa08SLS9Z0VM8wIRx7gWbJB5/J54YuIMInDquWyYvQLZkgw==
 
-"@jigjoy-ai/account-and-billing-client@^0.0.5":
-  version "0.0.5"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/account-and-billing-client/0.0.5/fd20cb0441672a511f2a1cd5a5e3f3cb3d1d5e60"
-  integrity sha512-taZINziKIku91lBZe8utb4B9kLYDw+sfF3WTTmi0RmEQzHNXVv6Hc1ClU4ayfy1bUFgwRaKGGT9IoAPTOpGQAg==
+"@jigjoy-ai/account-and-billing-client@^0.5.1":
+  version "0.5.1"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/account-and-billing-client/0.5.1/749d3dc604d6d7fc0dca669dda5b29ca7c8994c3"
+  integrity sha512-Zfe89Glw8I0NYB76BOKMIncjmogjDpmUGnkJiZiWJltYSafDw3GLmwrepDJAJdfsPzUiwtOEW+/cTvJEFKXcsg==
   dependencies:
-    axios "^1.13.2"
+    "@jigjoy-ai/http-client" "^0.1.1"
 
-"@jigjoy-ai/ai-coding-client@^0.0.12":
-  version "0.0.12"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/ai-coding-client/0.0.12/1881ba6ed015097a867f2dc92a262766473c2f66"
-  integrity sha512-ONDLbNzhI7WxDrl7EXcda/4seuXAMnW4imkoqLhEHcJkvxbpadyrr0vbyeTrx8ilOgZEP4QkOLa3gYote1ON/A==
+"@jigjoy-ai/ai-coding-client@^0.1.1":
+  version "0.1.1"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/ai-coding-client/0.1.1/fc839ccf288c770a6892e2e127a179484dc17d37"
+  integrity sha512-gF7k6b04q7krUpn/EaK+ZBXFW1irt+Y2abahr2SWKjd6J/xglszKdl8JWtyeJed2CyTiq2nSAhfTpK/5tWU50Q==
   dependencies:
+    "@jigjoy-ai/http-client" "^0.1.1"
     "@jigjoy-ai/task-contracts" "^0.0.3"
-    axios "^1.13.2"
 
 "@jigjoy-ai/file-artifacts@^0.0.8":
   version "0.0.8"
@@ -1060,47 +1060,41 @@
     tar-stream "^3.1.7"
     uuid "^11.1.0"
 
-"@jigjoy-ai/observability-client@^0.0.7":
-  version "0.0.7"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/observability-client/0.0.7/a0967d4c3d0949ce396c3295cdeda5223419cbc7"
-  integrity sha512-Ry2X3x4M+MUL4KUNeMGNbdDSAg1kB0mE/IueV4JMiHAMsl+z6SwmIFCGy4nVNd74SPxS4BgIEm8keapUJlJ/yg==
+"@jigjoy-ai/http-client@^0.1.1":
+  version "0.1.1"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/http-client/0.1.1/a577089088c35e84b73fa304c5ec0ec7481ea093"
+  integrity sha512-TJUe3ZhVmvDu5kDb7117i7z9Ki+aoGb4j4a7R0szn2A93arBMhsM+XZS7p21HmByQjjCezBrp5xnLt18HZpIgA==
   dependencies:
-    axios "^1.13.2"
+    axios "^1.13.5"
 
-"@jigjoy-ai/platform-sdk@^0.0.9":
-  version "0.0.9"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/platform-sdk/0.0.9/ded86ad8d5c5d0f2364c7abb6b77595e8b3557ee"
-  integrity sha512-ozV/b7CI5jrfsH7gv/NaKnTcAF5or7YcUk2H1b1Uz7mD8kPvkIGSVNF2YR25I9S10cAxvmyQyjiSRuAqAN7o5w==
+"@jigjoy-ai/observability-client@^0.1.1":
+  version "0.1.1"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/observability-client/0.1.1/43d3f1c82c05edb4dcd8ce6195b109eb864d7853"
+  integrity sha512-qzH6ZXnPChGwFOr28OJGDD9EtCrx+vRNhF6JnviHTVCIcAsbZo8wGKDMoDz82WEv5XP2sqEfyljl1OGfvzHJ2Q==
   dependencies:
-    "@jigjoy-ai/account-and-billing-client" "^0.0.5"
-    "@jigjoy-ai/ai-coding-client" "^0.0.12"
-    "@jigjoy-ai/observability-client" "^0.0.7"
-    "@jigjoy-ai/project-deployment-client" "^0.0.10"
-    "@jigjoy-ai/project-planning-client" "^0.0.7"
-    "@jigjoy-ai/project-versioning-client" "^0.0.11"
-    axios "^1.13.2"
+    "@jigjoy-ai/http-client" "^0.1.1"
 
-"@jigjoy-ai/project-deployment-client@^0.0.10":
-  version "0.0.10"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-deployment-client/0.0.10/3275637843cabeaeb2a634a2bd501cc2a5d1f69b"
-  integrity sha512-EE22j0gx2MiEFwn7kwHa0YC4jQX7pDIBpBQKAEV+BQPzQdjFuTtjCq75hSieQbCEB6x8appbMPI365RMIqa8fg==
+"@jigjoy-ai/project-deployment-client@^0.1.0":
+  version "0.1.0"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-deployment-client/0.1.0/f1be915aae723dc567ac496e68534f1e71a147b6"
+  integrity sha512-hTBKEgZLP28/G8trwclomw884Trw0IGuhKBw5QsnLNH2YblNSjqKMvwTDs/T37fCK/qr3ebrVXlDwCpTWsChyw==
   dependencies:
-    axios "^1.13.2"
+    "@jigjoy-ai/http-client" "^0.1.1"
 
-"@jigjoy-ai/project-planning-client@^0.0.7":
-  version "0.0.7"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-planning-client/0.0.7/350474571afc3ccf4f62869e9cc98481107078a3"
-  integrity sha512-uJ3z3LgbHtT0SxYvPsP3boVg3FHuRpA3Tr5mkzWmtVc3fiTQSrZbfnZOgiIJ7IP6UhPU7CRbQq6zF51KZ5Vwdg==
+"@jigjoy-ai/project-planning-client@^0.1.0":
+  version "0.1.0"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-planning-client/0.1.0/94de68f140b8352d21908f2b9aafa0ff7d72082e"
+  integrity sha512-w87lVoSQayeFDvqzLDKMZcrw4CHm5fZnk0uHcdsViiFMb26r4fm+OzmFEqfXN2elnPWocISJ7Fu8Rwv/9U49Xw==
   dependencies:
+    "@jigjoy-ai/http-client" "^0.1.1"
     "@jigjoy-ai/task-contracts" "^0.0.3"
-    axios "^1.13.2"
 
-"@jigjoy-ai/project-versioning-client@^0.0.11":
-  version "0.0.11"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-versioning-client/0.0.11/8cd7d85f24568b2d3f411745933ddfaa2530fb77"
-  integrity sha512-3Lm3UVFfeSrdtmvKqIQJAWPTLrxnJIkfHZ5xOP1/KtBJjXeL9nrmB5u2ySh7Gef2XDQRMZq235ryrKeJ6KadHA==
+"@jigjoy-ai/project-versioning-client@^0.1.0":
+  version "0.1.0"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-versioning-client/0.1.0/bf3394d39463ddb59f021842983d6f9d5c5f0da3"
+  integrity sha512-RId5KPOd0FCngvh06zyaUWXZqNm0nyo1AW6qE0yd4uPieV9unDCtiYJIw/S8DhV2jJGLGtR71wURXwJZHZk91w==
   dependencies:
-    axios "^1.13.2"
+    "@jigjoy-ai/http-client" "^0.1.1"
 
 "@jigjoy-ai/serverless-core@^0.0.5":
   version "0.0.5"
@@ -1109,6 +1103,19 @@
   dependencies:
     ajv "^8.17.1"
     ajv-formats "^3.0.1"
+
+"@jigjoy-ai/spektrum-client@^0.0.1":
+  version "0.0.1"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/spektrum-client/0.0.1/ba816b30660219647994327c59463ad004938bda"
+  integrity sha512-k+FD0S0IbsrdiZlyO2wrspGR5hgr5duVKByyeUCDyrabqr5bo920G5X7lXmlWiTItxZBiiod/Zj+IkBW+PiEcA==
+  dependencies:
+    "@jigjoy-ai/account-and-billing-client" "^0.5.1"
+    "@jigjoy-ai/ai-coding-client" "^0.1.1"
+    "@jigjoy-ai/http-client" "^0.1.1"
+    "@jigjoy-ai/observability-client" "^0.1.1"
+    "@jigjoy-ai/project-deployment-client" "^0.1.0"
+    "@jigjoy-ai/project-planning-client" "^0.1.0"
+    "@jigjoy-ai/project-versioning-client" "^0.1.0"
 
 "@jigjoy-ai/task-contracts@^0.0.3":
   version "0.0.3"
@@ -1953,7 +1960,7 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-axios@^1.13.2:
+axios@^1.13.5:
   version "1.13.5"
   resolved "https://registry.npmjs.org/axios/-/axios-1.13.5.tgz"
   integrity sha512-cz4ur7Vb0xS4/KUN0tPWe44eqxrIu31me+fbang3ijiNscE129POzipJJA6zniq2C/Z6sJCjMimjS8Lc/GAs8Q==
