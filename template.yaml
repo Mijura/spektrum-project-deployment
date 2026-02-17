@@ -49,6 +49,7 @@ Resources:
           PROJECT_CLOUD_PROFILE: !Ref ProjectCloudProfileTable
           WEB_HOSTING_BUCKET: !Ref WebHostingBucket
           JIGJOY_API_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:JigJoyApiEndpoint}}"
+          INTERNAL_SERVICE_TOKEN: "{{resolve:secretsmanager:vars:SecretString:InternalServiceToken}}"
     Metadata:
       BuildMethod: esbuild
       BuildProperties:

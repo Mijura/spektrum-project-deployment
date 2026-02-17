@@ -59,6 +59,7 @@ Resources:
           PROJECT_CLOUD_PROFILE: "ProjectCloudProfile"
           WEB_HOSTING_BUCKET: ""
           JIGJOY_API_ENDPOINT: ""
+          INTERNAL_SERVICE_TOKEN: ""
       Events:
         Api:
           Type: Api
