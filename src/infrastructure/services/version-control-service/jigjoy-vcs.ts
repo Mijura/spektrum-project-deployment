@@ -8,7 +8,10 @@ export class JigJoyVersionControl implements VersionControlService {
 	constructor() {
 		const jigjoyApiEndpoint = process.env.JIGJOY_API_ENDPOINT as string
 
-		this.spektrumClient = new SpektrumClient(jigjoyApiEndpoint, { kind: 'internal', token: process.env.INTERNAL_SERVICE_TOKEN as string })
+		this.spektrumClient = new SpektrumClient(jigjoyApiEndpoint, {
+			kind: "internal",
+			token: process.env.INTERNAL_SERVICE_TOKEN as string,
+		})
 	}
 
 	async pull(repositoryId: string): Promise<Version> {
