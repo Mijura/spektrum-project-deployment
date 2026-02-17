@@ -10,7 +10,6 @@ confirm_changeset = true
 capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
 disable_rollback = true
 image_repositories = []
-parameter_overrides = "AppsCertificateArn=arn:aws:acm:us-east-1:425946675747:certificate/8d585920-3121-4151-95ca-164a891849bd"
 
 [default.global.parameters]
 region = "eu-west-1"

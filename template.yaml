@@ -6,9 +6,6 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
-  AppsCertificateArn:
-    Type: String
-    Description: ACM certificate ARN in us-east-1 for *.apps.dev.jigjoy.ai
   HostedZoneId:
     Type: String
     Default: Z07735212HGZVO529ELA1
@@ -174,7 +171,7 @@ Resources:
         Aliases:
           - !Sub "*.${AppsDomainSuffix}"
         ViewerCertificate:
-          AcmCertificateArn: !Ref AppsCertificateArn
+          AcmCertificateArn: "{{resolve:ssm:/jigjoy/certs/apps-wildcard-us-east-1}}"
           SslSupportMethod: sni-only
           MinimumProtocolVersion: TLSv1.2_2021
         Enabled: true
