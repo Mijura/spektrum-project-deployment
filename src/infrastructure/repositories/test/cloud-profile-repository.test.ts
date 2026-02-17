@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "@rstest/core"
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, DeleteCommand, PutCommand } from "@aws-sdk/lib-dynamodb"
-import { DynamoDBCloudProfileRepository } from "@infra/repositories/cloud-profile-repository"
+import { DynamoDBCloudProfileRepository } from "@infra/repositories/cloud-profile-repository/cloud-profile-repository"
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
 import { EnvironmentType } from "@domain/environment"
 import { DeploymentTarget } from "@domain/deployment-target"
