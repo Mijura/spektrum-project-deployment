@@ -1034,20 +1034,43 @@
   resolved "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.12.tgz"
   integrity sha512-uqZMTLr/zR/ed4jIGnwSLkaHmPjOjJvnm6TVVitAa08SLS9Z0VM8wIRx7gWbJB5/J54YuIMInDquWyYvQLZkgw==
 
-"@jigjoy-ai/account-and-billing-client@^0.5.1":
-  version "0.5.1"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/account-and-billing-client/0.5.1/749d3dc604d6d7fc0dca669dda5b29ca7c8994c3"
-  integrity sha512-Zfe89Glw8I0NYB76BOKMIncjmogjDpmUGnkJiZiWJltYSafDw3GLmwrepDJAJdfsPzUiwtOEW+/cTvJEFKXcsg==
+"@heksagon/app@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.npmjs.org/@heksagon/app/-/app-0.0.14.tgz"
+  integrity sha512-F15tH5D4LCXmg3C4v/q2CpQvzKOn2LwzBktorTuIi8MK8AZDlK+OsYnyRP0r041tb8mkFCgJD/ORIQ5oEhDo4A==
+
+"@heksagon/http@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.npmjs.org/@heksagon/http/-/http-0.0.9.tgz"
+  integrity sha512-d6qDhLUv+o7VbuBwXLbu8FyGLMbje6kYpP8PFRml7oAnmt8rWM7XbubAi/KCsxuzBFzpUdC+C0x9IrsvcIxcEQ==
   dependencies:
+    "@heksagon/app" "^0.0.14"
+
+"@jigjoy-ai/account-and-billing-client@^0.5.4":
+  version "0.5.4"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/account-and-billing-client/0.5.4/eaa8ecb88fc2a41770d8cdc66220d5d101270032"
+  integrity sha512-M7zcimyNtXxZ0+eluZbCusDvUGo6CACsUqoqG4/hiEaMnyvOaPmjEOJuaTzyvoq91513/jb5JLh5ryXHQGXQSA==
+  dependencies:
+    "@heksagon/app" "^0.0.14"
+    "@heksagon/http" "^0.0.9"
+    "@jigjoy-ai/auth" "^0.1.0"
     "@jigjoy-ai/http-client" "^0.1.1"
 
-"@jigjoy-ai/ai-coding-client@^0.1.1":
-  version "0.1.1"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/ai-coding-client/0.1.1/fc839ccf288c770a6892e2e127a179484dc17d37"
-  integrity sha512-gF7k6b04q7krUpn/EaK+ZBXFW1irt+Y2abahr2SWKjd6J/xglszKdl8JWtyeJed2CyTiq2nSAhfTpK/5tWU50Q==
+"@jigjoy-ai/ai-coding-client@^0.1.6":
+  version "0.1.6"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/ai-coding-client/0.1.6/f291af75a3979e2b369a7ed812e2699fcc6d7932"
+  integrity sha512-mFOJTW+JxAS/vvhpj3Na5xC/3yj62AlJo+pKKlBscJ6JM95KnKF3H6+W4Zv1dkHhhgbP7ouSsTZ+WcBBGAHYFA==
   dependencies:
+    "@heksagon/app" "^0.0.14"
+    "@heksagon/http" "^0.0.9"
+    "@jigjoy-ai/auth" "^0.1.0"
     "@jigjoy-ai/http-client" "^0.1.1"
     "@jigjoy-ai/task-contracts" "^0.0.3"
+
+"@jigjoy-ai/auth@^0.1.0":
+  version "0.1.0"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/auth/0.1.0/45041426d4c2bc0b770aa8274bf36588f83ff7ba"
+  integrity sha512-wDQBqq3e4Rf0To4H8OIzpH/dxQ4COEze5WuVpRBdvh+c9jOXnHfHnYI2/iPWz4Em5nEqph55KKVFfv0kxTu6Bw==
 
 "@jigjoy-ai/file-artifacts@^0.0.8":
   version "0.0.8"
@@ -1067,33 +1090,45 @@
   dependencies:
     axios "^1.13.5"
 
-"@jigjoy-ai/observability-client@^0.1.1":
+"@jigjoy-ai/observability-client@^0.1.4":
+  version "0.1.4"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/observability-client/0.1.4/46f62a0d8584826b7abdf71ceb95c10e7820aaac"
+  integrity sha512-gt7pb9DdJLpav5mFFAdTYpng3dhocFhW+lN5kq6u5Cf+zPeYwRcsdpQCrHgjFO4MwGR7BTSDnZhHmquKMOqAlA==
+  dependencies:
+    "@heksagon/app" "^0.0.14"
+    "@heksagon/http" "^0.0.9"
+    "@jigjoy-ai/auth" "^0.1.0"
+    "@jigjoy-ai/http-client" "^0.1.1"
+
+"@jigjoy-ai/project-deployment-client@^0.1.1":
   version "0.1.1"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/observability-client/0.1.1/43d3f1c82c05edb4dcd8ce6195b109eb864d7853"
-  integrity sha512-qzH6ZXnPChGwFOr28OJGDD9EtCrx+vRNhF6JnviHTVCIcAsbZo8wGKDMoDz82WEv5XP2sqEfyljl1OGfvzHJ2Q==
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-deployment-client/0.1.1/39825f8ba6cb871c6264aaeebd03718ae010c60d"
+  integrity sha512-jC8BjmyXKmdpubgNzQiWWX5kp8eois/g6iQbOSiLKSu/TSGY1k4n6zUfB45CmTocTqMQBheCjREPr/9UaibYtA==
   dependencies:
+    "@heksagon/app" "^0.0.14"
+    "@heksagon/http" "^0.0.9"
+    "@jigjoy-ai/auth" "^0.1.0"
     "@jigjoy-ai/http-client" "^0.1.1"
 
-"@jigjoy-ai/project-deployment-client@^0.1.0":
-  version "0.1.0"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-deployment-client/0.1.0/f1be915aae723dc567ac496e68534f1e71a147b6"
-  integrity sha512-hTBKEgZLP28/G8trwclomw884Trw0IGuhKBw5QsnLNH2YblNSjqKMvwTDs/T37fCK/qr3ebrVXlDwCpTWsChyw==
+"@jigjoy-ai/project-planning-client@^0.1.3":
+  version "0.1.3"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-planning-client/0.1.3/e73282d641e2c769b7f6afaf8d86a288315c8dbf"
+  integrity sha512-j1NEPZ9UIrbGVD1lQ9LkIAlvfmjNX4P8xsU/wpBbCphOk8AybwzFyA2hEGiF8cRzP6Hiz1SminXiYA5gTO7UhQ==
   dependencies:
-    "@jigjoy-ai/http-client" "^0.1.1"
-
-"@jigjoy-ai/project-planning-client@^0.1.0":
-  version "0.1.0"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-planning-client/0.1.0/94de68f140b8352d21908f2b9aafa0ff7d72082e"
-  integrity sha512-w87lVoSQayeFDvqzLDKMZcrw4CHm5fZnk0uHcdsViiFMb26r4fm+OzmFEqfXN2elnPWocISJ7Fu8Rwv/9U49Xw==
-  dependencies:
+    "@heksagon/app" "^0.0.14"
+    "@heksagon/http" "^0.0.9"
+    "@jigjoy-ai/auth" "^0.1.0"
     "@jigjoy-ai/http-client" "^0.1.1"
     "@jigjoy-ai/task-contracts" "^0.0.3"
 
-"@jigjoy-ai/project-versioning-client@^0.1.0":
-  version "0.1.0"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-versioning-client/0.1.0/bf3394d39463ddb59f021842983d6f9d5c5f0da3"
-  integrity sha512-RId5KPOd0FCngvh06zyaUWXZqNm0nyo1AW6qE0yd4uPieV9unDCtiYJIw/S8DhV2jJGLGtR71wURXwJZHZk91w==
+"@jigjoy-ai/project-versioning-client@^0.1.1":
+  version "0.1.1"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/project-versioning-client/0.1.1/7ab861717c402f2f706023c1d669f6e8ea2ff598"
+  integrity sha512-xKB/hn3icIZYwO8p+fNAxKUoLKkzoLQEBNlMHaqO1TW9ei2ke+rkQii2ZXtlaW4BmjCwwxUnC+bR85/ui0CaUQ==
   dependencies:
+    "@heksagon/app" "^0.0.14"
+    "@heksagon/http" "^0.0.9"
+    "@jigjoy-ai/auth" "^0.1.0"
     "@jigjoy-ai/http-client" "^0.1.1"
 
 "@jigjoy-ai/serverless-core@^0.0.5":
@@ -1104,18 +1139,18 @@
     ajv "^8.17.1"
     ajv-formats "^3.0.1"
 
-"@jigjoy-ai/spektrum-client@^0.0.1":
-  version "0.0.1"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/spektrum-client/0.0.1/ba816b30660219647994327c59463ad004938bda"
-  integrity sha512-k+FD0S0IbsrdiZlyO2wrspGR5hgr5duVKByyeUCDyrabqr5bo920G5X7lXmlWiTItxZBiiod/Zj+IkBW+PiEcA==
+"@jigjoy-ai/spektrum-client@^0.0.11":
+  version "0.0.11"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-ai/spektrum-client/0.0.11/38ec702291880330464a3ca76df6d0be168a9df4"
+  integrity sha512-ZneOnq39QphxT1VOREUjC9mXUJinFXJuegE2N4CwRpB9XwGEFkpUv6ZpzM6oaXKIFh+ty2L/GzJsgCw4xSZP+Q==
   dependencies:
-    "@jigjoy-ai/account-and-billing-client" "^0.5.1"
-    "@jigjoy-ai/ai-coding-client" "^0.1.1"
+    "@jigjoy-ai/account-and-billing-client" "^0.5.4"
+    "@jigjoy-ai/ai-coding-client" "^0.1.6"
     "@jigjoy-ai/http-client" "^0.1.1"
-    "@jigjoy-ai/observability-client" "^0.1.1"
-    "@jigjoy-ai/project-deployment-client" "^0.1.0"
-    "@jigjoy-ai/project-planning-client" "^0.1.0"
-    "@jigjoy-ai/project-versioning-client" "^0.1.0"
+    "@jigjoy-ai/observability-client" "^0.1.4"
+    "@jigjoy-ai/project-deployment-client" "^0.1.1"
+    "@jigjoy-ai/project-planning-client" "^0.1.3"
+    "@jigjoy-ai/project-versioning-client" "^0.1.1"
 
 "@jigjoy-ai/task-contracts@^0.0.3":
   version "0.0.3"
