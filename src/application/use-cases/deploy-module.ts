@@ -1,12 +1,13 @@
-import { DeployModuleUseCase } from "@app/ports/use-cases/deploy-module"
+import { DeployModuleParams, DeployModuleUseCase } from "@app/ports/use-cases/deploy-module"
 import { CloudProfileRepository } from "@app/ports/repositories/project-cloud-profile-repository"
 import { VersionControlService } from "@app/ports/services/version-control-service"
 import { ProjectCloudProfile } from "@domain/project-cloud-profile"
-import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
 import { S3Client } from "@app/ports/services/s3-client"
 import { DeploymentTarget } from "@domain/deployment-target"
 import { EntryPoint } from "@app/value-objects/entry-point"
 import { S3 } from "@domain/service/s3"
+import { UserData } from "@jigjoy-ai/auth"
+import { Auth } from "@heksagon/app"
 
 export class DeployModule implements DeployModuleUseCase {
 	constructor(
@@ -15,19 +16,21 @@ export class DeployModule implements DeployModuleUseCase {
 		private s3Client: S3Client,
 	) {}
 
-	async execute(command: DeployModuleCommand): Promise<EntryPoint> {
-		let profile = await this.cloudProfileRepo.getByProjectId(command.projectId)
+	async execute(auth: Auth<UserData>, params: DeployModuleParams): Promise<EntryPoint> {
+
+		const { projectId, moduleId, moduleType, versionControlId, environmentType, setAsEntryPoint } = params
+		let profile = await this.cloudProfileRepo.getByProjectId(projectId)
 
 		// if not exists, lazily create ProjectCloudProfile here
 		// TODO: Throw error if profile not exists
 		if (!profile) {
-			profile = ProjectCloudProfile.create(command.projectId)
+			profile = ProjectCloudProfile.create(projectId)
 		}
 
-		const env = profile.getEnvironment(command.environmentType)
+		const env = profile.getEnvironment(environmentType)
 		if (!env) throw new Error("Environment not found")
 
-		let deploymentTarget: DeploymentTarget | undefined = env.getDeploymentTarget(command.moduleId)
+		let deploymentTarget: DeploymentTarget | undefined = env.getDeploymentTarget(moduleId)
 		const bucket = process.env.WEB_HOSTING_BUCKET as string
 		if (!deploymentTarget) {
 			const service: S3 = S3.create(
@@ -35,17 +38,17 @@ export class DeployModule implements DeployModuleUseCase {
 				`https://${bucket}.s3.eu-west-1.amazonaws.com`,
 				`development.jigjoy.io`,
 			)
-			deploymentTarget = DeploymentTarget.create(command.moduleId, command.versionControlId, service)
+			deploymentTarget = DeploymentTarget.create(moduleId, versionControlId, service)
 			env.addDeploymentTarget(deploymentTarget)
 		}
 
-		if (command.setAsEntryPoint) {
-			env.setEntryPoint(command.moduleId)
+		if (setAsEntryPoint) {
+			env.setEntryPoint(moduleId)
 		}
 
 		console.log("Deploying module: ", deploymentTarget.getModuleId())
 		const revisionId = deploymentTarget.getRevisionId()
-		const projectArtifacts = await this.versionControlService.pull(revisionId)
+		const projectArtifacts = await this.versionControlService.pull(revisionId, auth)
 		
 		// delete the folder before uploading new artifacts
 		await this.s3Client.deleteFolder(bucket, deploymentTarget.getFolderName())
