@@ -32,11 +32,13 @@ export class DeployModule implements DeployModuleUseCase {
 
 		let deploymentTarget: DeploymentTarget | undefined = env.getDeploymentTarget(moduleId)
 		const bucket = process.env.WEB_HOSTING_BUCKET as string
+		const appsDomain = process.env.APPS_DOMAIN_SUFFIX as string
+		const region = process.env.AWS_REGION || "eu-west-1"
 		if (!deploymentTarget) {
 			const service: S3 = S3.create(
 				bucket,
-				`https://${bucket}.s3.eu-west-1.amazonaws.com`,
-				`development.jigjoy.io`,
+				`http://${bucket}.s3-website-${region}.amazonaws.com`,
+				appsDomain,
 			)
 			deploymentTarget = DeploymentTarget.create(moduleId, versionControlId, service)
 			env.addDeploymentTarget(deploymentTarget)
