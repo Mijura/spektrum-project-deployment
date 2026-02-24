@@ -1,10 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Responses, schemaValidator, ValidationError } from "@jigjoy-ai/serverless-core"
 import { errorHandler } from "@infra/http/error-handler"
-import { DeployModuleUseCase } from "@app/ports/use-cases/deploy-module"
-import { DeployModuleCommand } from "@app/value-objects/deploy-module-command"
+import { DeployModuleParams, DeployModuleUseCase } from "@app/ports/use-cases/deploy-module"
 import { schema } from "@infra/http/schemas/deploy-module"
 import { EntryPoint } from "@app/value-objects/entry-point"
+import { extractAuthData } from "@heksagon/http"
+import { UserData } from "@jigjoy-ai/auth"
+import { Auth } from "@heksagon/app"
 
 export function createDeployModuleHandler(deployModuleUseCase: DeployModuleUseCase) {
 	return async function deployModuleHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
@@ -18,9 +20,18 @@ export function createDeployModuleHandler(deployModuleUseCase: DeployModuleUseCa
 			const parsedBody = JSON.parse(body)
 			schemaValidator(schema, parsedBody)
 
-			const deployModuleCommand = parsedBody as DeployModuleCommand
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 
-			const entryPoint: EntryPoint = await deployModuleUseCase.execute(deployModuleCommand)
+			const deployModuleParams: DeployModuleParams = {
+				projectId: parsedBody.projectId,
+				moduleId: parsedBody.moduleId,
+				moduleType: parsedBody.moduleType,
+				versionControlId: parsedBody.versionControlId,
+				environmentType: parsedBody.environmentType,
+				setAsEntryPoint: parsedBody.setAsEntryPoint,
+			}
+
+			const entryPoint: EntryPoint = await deployModuleUseCase.execute(auth, deployModuleParams)
 
 			return Responses._200(entryPoint)
 		} catch (error) {
