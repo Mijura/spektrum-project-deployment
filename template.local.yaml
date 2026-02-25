@@ -58,6 +58,7 @@ Resources:
         Variables:
           PROJECT_CLOUD_PROFILE: "ProjectCloudProfile"
           WEB_HOSTING_BUCKET: ""
+          APPS_DOMAIN_SUFFIX: ""
           JIGJOY_API_ENDPOINT: ""
           INTERNAL_SERVICE_TOKEN: ""
       Events:

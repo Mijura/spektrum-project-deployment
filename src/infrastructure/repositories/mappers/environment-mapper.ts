@@ -1,27 +1,21 @@
 import { Environment, EnvironmentType } from "@domain/environment"
 import { DeploymentTargetMapper, DeploymentTargetRecord } from "./deployment-target-mapper"
 import { CloudServiceMapper } from "./cloud-service-mapper"
-import { DeploymentTarget } from "@domain/deployment-target"
 
 export type EnvironmentRecord = {
 	type: EnvironmentType
 	deploymentTargets: DeploymentTargetRecord[]
-	entryPoint?: string
+	entryPoint: string | null
 }
 
 export class EnvironmentMapper {
 	static toRecord(env: Environment): EnvironmentRecord {
-		const record: EnvironmentRecord = {
+		const entryPoint = env.getEntryPoint()
+		return {
 			type: env.getType(),
 			deploymentTargets: env.deploymentTargets.map((target) => DeploymentTargetMapper.toRecord(target)),
+			entryPoint: entryPoint ? entryPoint.getModuleId() : null,
 		}
-
-		const entryPoint = env.getEntryPoint()
-		if (entryPoint) {
-			record.entryPoint = entryPoint.getModuleId()
-		}
-
-		return record
 	}
 
 	static toDomain(record: EnvironmentRecord): Environment {
