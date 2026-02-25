@@ -58,7 +58,6 @@ export class DeployModule implements DeployModuleUseCase {
 		console.log("Module deployed: ", deploymentTarget.getModuleId())
 
 		profile.updateEnvironment(env)
-		console.log("Profile updated: ", profile)
 
 		// persist profile
 		await this.cloudProfileRepo.save(profile)

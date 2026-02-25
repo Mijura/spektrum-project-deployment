@@ -1,4 +1,3 @@
-import { DeploymentLog } from "@domain/deployment-log"
 import { DeploymentTarget } from "@domain/deployment-target"
 
 export enum EnvironmentType {
@@ -10,11 +9,11 @@ export class Environment {
 	private constructor(
 		private type: EnvironmentType,
 		readonly deploymentTargets: DeploymentTarget[],
-		private entryModuleId: string | undefined,
+		private entryModuleId: string | null,
 	) {}
 
 	static create(type: EnvironmentType): Environment {
-		return new Environment(type, [], undefined)
+		return new Environment(type, [], null)
 	}
 
 	updateDeploymentTarget(target: DeploymentTarget): void {
