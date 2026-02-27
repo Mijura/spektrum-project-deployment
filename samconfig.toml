@@ -9,6 +9,7 @@ profile = "spektrum-dev"
 confirm_changeset = true
 capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
 disable_rollback = true
+parameter_overrides = "HostedZoneId=\"Z07735212HGZVO529ELA1\" AppsDomainSuffix=\"apps.dev.jigjoy.ai\""
 image_repositories = []
 
 [default.global.parameters]
