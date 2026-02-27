@@ -8,12 +8,10 @@ Transform:
 Parameters:
   HostedZoneId:
     Type: String
-    Default: Z07735212HGZVO529ELA1
-    Description: Route53 hosted zone ID for dev.jigjoy.ai
+    Description: Route53 hosted zone ID for the apps domain
   AppsDomainSuffix:
     Type: String
-    Default: apps.dev.jigjoy.ai
-    Description: Domain suffix for deployed apps (each app gets <uuid>.apps.dev.jigjoy.ai)
+    Description: Domain suffix for deployed apps (each app gets <uuid>.<suffix>)
 
 Globals:
   Function:
