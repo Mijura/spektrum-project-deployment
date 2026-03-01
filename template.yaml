@@ -103,7 +103,7 @@ Resources:
   WebHostingBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${AWS::StackName}-web-hosting"
+      BucketName: !Sub "${AWS::StackName}-web-hosting-${AWS::AccountId}"
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: index.html
